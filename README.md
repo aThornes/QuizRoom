@@ -1,3 +1,8 @@
+
+Quiz based web application designed for small groups.
+
+Based around firebase realtime database used to store questions and room data.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
