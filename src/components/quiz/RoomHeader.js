@@ -10,8 +10,6 @@ function RoomHeader(props) {
   useEffect(() => {
     setTotalPlayers(Object.keys(props.roomData.JoinedUsers).length);
 
-    console.log(Object.keys(props.roomData.JoinedUsers));
-
     let numPlayersCompleted = 0;
 
     let roundNum = props.roomData.RoundNum;
@@ -22,7 +20,6 @@ function RoomHeader(props) {
       if(user.answers){
         user.answers.forEach(ans => {
           if(ans.q === questionNum && ans.rnd === roundNum && ans.val){
-            console.log(ans);
             numPlayersCompleted++;
           }
         });

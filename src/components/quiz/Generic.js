@@ -15,7 +15,6 @@ function Generic(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [props.curAns]);
 
-
   return (
     <div>
       <h2>{props.headerText}</h2>

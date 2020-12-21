@@ -10,6 +10,8 @@ import NotFound from "./NotFound";
 
 import firebase from "./firebase";
 
+import "../quiz.css";
+
 require('dotenv').config();
 
 function AppRouter(props){

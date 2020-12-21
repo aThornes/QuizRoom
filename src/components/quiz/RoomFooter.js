@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 function RoomFooter(props) {  
 
@@ -8,6 +8,35 @@ function RoomFooter(props) {
   let [pass, setPass] = useState("");
 
   let [showErr, setShowErr] = useState(false);
+
+  let [totalPlayers, setTotalPlayers] = useState(0);
+  let [readyPlayers, setReadyPlayers] = useState(0);
+
+  useEffect(() => {
+    setTotalPlayers(Object.keys(props.roomData.JoinedUsers).length);
+
+    let numPlayersCompleted = 0;
+
+    let roundNum = props.roomData.RoundNum;
+    let questionNum = props.roomData.QuestionNum;
+
+    if(questionNum >= 100) questionNum -= 100;
+
+    Object.keys(props.roomData.JoinedUsers).forEach(p => {
+      const user = props.roomData.JoinedUsers[p];
+      if(user.answers){
+        user.answers.forEach(ans => {
+          if(ans.q === questionNum && ans.rnd === roundNum && (ans.correct === true || ans.correct === false) ){
+            numPlayersCompleted++;
+          }
+        });
+      }
+    });
+    
+    setReadyPlayers(numPlayersCompleted);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum])
 
   const getStageOption = () => {
     if(props.roomData.Stage === 0){
@@ -25,6 +54,10 @@ function RoomFooter(props) {
     }
   }
 
+  const changeRound = (newVal) => {
+    props.updateRoomData("RoundNum", newVal);
+    props.updateRoomData("QuestionNum", 0)
+  }
 
   const getQuestionOptions = () => {
     const roundNum = props.roomData.RoundNum;
@@ -39,15 +72,19 @@ function RoomFooter(props) {
       
       if(roundNum > 0) prevRound=true;
 
-      if(questionNum < upperQuestionBound)  nextQues = true;
+      if((questionNum < upperQuestionBound && questionNum < 100) || (questionNum >= 100 && questionNum < (100 + upperQuestionBound)))  nextQues = true;
 
-      if(questionNum > 0) prevQues = true;
+      if((questionNum > 0 && questionNum < 100) || questionNum > 100) prevQues = true;
 
       return(<>
-        <button disabled={!prevRound} onClick={() => props.updateRoomData("RoundNum", roundNum - 1)}>Previous Round</button>
-        <button disabled={!nextRound} onClick={() => props.updateRoomData("RoundNum", roundNum + 1)}>Next Round</button>
+        <button disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>Previous Round</button>
+        <button disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>Next Round</button>
         <button disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>Previous Question</button>
         <button disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>Next Question</button>
+        {(questionNum < 100 ?
+        <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
+        <button onClick={() => props.updateRoomData("QuestionNum", upperQuestionBound)}>Questions</button>
+        )}
       </>);
       
 
@@ -59,6 +96,7 @@ function RoomFooter(props) {
         <div>
             {getQuestionOptions()}
             {getStageOption()}
+            {props.roomData.QuestionNum >= 100 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
             <button onClick={() => props.authLogout()}>Log out</button>
         </div>
     );
