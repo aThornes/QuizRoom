@@ -18,8 +18,10 @@ function RoomHeader(props) {
     Object.keys(props.roomData.JoinedUsers).forEach(p => {
       const user = props.roomData.JoinedUsers[p]
       if(user.answers){
-        user.answers.forEach(ans => {
-          if(ans.q === questionNum && ans.rnd === roundNum && ans.val){
+        
+        Object.keys(user.answers).forEach(ansKey => {
+          const ans = user.answers[ansKey];
+          if(ans.q === questionNum && ans.rnd === roundNum && (ans.val !== undefined && ans.val !== null)){
             numPlayersCompleted++;
           }
         });

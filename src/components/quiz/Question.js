@@ -1,122 +1,166 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+
+import makeID from '../utils'
 
 import Music from './Music';
 import Picture from './Picture';
 import Generic from './Generic';
-import Choice from './Choice';
 import Answers from './Answers';
+import UserAnswer from './UserAnswer';
 
 
 function Question(props) {  
 
-  const [userDone, setUserDone] = useState(false);
+  const [roundNum, setRoundNum] = useState(null);
+  const [questionNum, setQuestionNum] = useState(null);
+  const [questionSetID, setQuestionSetID] = useState(null);
+  const [type, setType] = useState(null);
+  const [headerText, setHeaderText] = useState(null);
+  const [allowInput/*, setAllowInput*/] = useState(true);
+  const [checkAnswer, setCheckAnswer] = useState(true);
 
-  //TODO
-  const allowInput = true;
+  useEffect(() => {
+    if(!props.roomData) return;
+    const rnd = props.roomData.RoundNum;
+    const qNum = props.roomData.QuestionNum;
+    const id = props.roomData.Questions[rnd].id;
+    const qType = props.questionData[id].type;
+    const text = props.questionData[id].text;
 
-  
-  let roundNum = props.roomData.RoundNum;
-  let questionNum = props.roomData.QuestionNum;
-  let questionSetID = props.roomData.Questions[roundNum].id;
-  let type = props.questionData[questionSetID].type;
-  let headerText = props.questionData[questionSetID].text;
-  
-  let ans = null;
+    if(rnd !== roundNum || qNum !== questionNum) setCheckAnswer(true);
+    else setCheckAnswer(false);
 
-  
-  if(questionNum >= 100){
-    type="answer";
-    questionNum -= 100;
-  } 
+    setRoundNum(rnd);
+    setQuestionNum(qNum);
+    setQuestionSetID(id);
+    setType(qType);
+    setHeaderText(text);
 
-  if(props.userData && props.userData.answers){
-    ans = props.userData.answers.find(val => val.rnd === roundNum && val.q === questionNum);
-  }
+    if(questionNum >= 100){
+      setType("answer");
+      setQuestionNum(questionNum - 100);
+    } 
+    
+// eslint-disable-next-line react-hooks/exhaustive-deps 
+  }, [props.roomData, props.questionData]);
 
 
-  const getUserIndex = () => {
-    let userIndex = -1;
+  const getUserKey = () => {
+    let userKey = -1;
     let objKeys = Object.keys(props.roomData.JoinedUsers);
     for(let i = 0; i < objKeys.length; i++){
-      if(props.roomData.JoinedUsers[objKeys[i]].name === props.userData.name) {userIndex = i; break;} 
+      if(props.roomData.JoinedUsers[objKeys[i]].name === props.userData.name) {userKey = objKeys[i]; break;} 
     }
-    return userIndex;
+    return userKey;
   }  
 
-  const getAnswerIndex = (userIndex) => {
-    let objKeys = [];
-    let ansIndex = -1;
-    const answers = props.roomData.JoinedUsers[userIndex].answers;  
-    if(answers){
-      objKeys = Object.keys(answers);
-      for(let i = 0; i < objKeys.length; i++){
-        if(answers[objKeys[i]].q === questionNum && answers[objKeys[i]].rnd === roundNum) {ansIndex = i; break;} 
-      }
-    }
+  const getAnswerKey = () => {
+    let uKey= getUserKey();
 
-    return {idx: ansIndex, len: objKeys.length};
-  }
+    const userAnswerList = props.roomData.JoinedUsers[uKey].answers;
 
-  const setAsDone = (value, revert) => {
-    /* Mark user has 'completed' */
+    if(userAnswerList){
+      let ansKeys = Object.keys(props.roomData.JoinedUsers[uKey].answers);
+      let foundKey = null;
 
-    setUserDone(revert ? false : true);
-
-    if(!revert){
-      /* Update user answer */
-      let userIndex = getUserIndex();
-      
-      if(userIndex >= 0){
-        let ansObj = getAnswerIndex(userIndex);
-        let ansIndex = ansObj.idx;
-
-        if(ansIndex >= 0){
-          props.updateRoomData(`JoinedUsers/${userIndex}/answers/${ansIndex}/val`, value)
-        } else {
-          props.updateRoomData(`JoinedUsers/${userIndex}/answers/${ansObj.length || 0}`, {q: questionNum, rnd: roundNum, val: value})
+      ansKeys.forEach(k=> {
+        if(userAnswerList[k].rnd === roundNum && userAnswerList[k].q === questionNum){
+          foundKey = k;
         }
+      });
 
-      }
-    }    
+      return foundKey;
+
+    } else return null;
+
   }
 
-  const setResult = (correct) => {
-    /* Update user answer */
-    let userIndex = getUserIndex();
-      
-    if(userIndex >= 0){
-      let ansObj = getAnswerIndex(userIndex);
-      let ansIndex = ansObj.idx;
-      
-      if(ansIndex >= 0){
-        props.updateRoomData(`JoinedUsers/${userIndex}/answers/${ansIndex}/correct`, correct);
-      } else {
-        props.updateRoomData(`JoinedUsers/${userIndex}/answers/${ansObj.length || 0}`, {q: questionNum, rnd: roundNum, val: false, correct: correct})
-      }
+  const genKey = (userKey) => {
+    let answerKey = makeID(4);
+
+    let keyList = Object.keys(props.roomData.JoinedUsers[userKey]);
+
+    while(keyList.includes(answerKey)) answerKey = makeID(4);
+
+    return answerKey;
+  }
+
+  const getCurrentAnswer = () => {
+    let uKey= getUserKey();
+    let ansKey = getAnswerKey();
+
+    setCheckAnswer(false);
+    if(ansKey){
+      return props.roomData.JoinedUsers[uKey].answers[ansKey].val;
+    } else return null;
+  }
+
+  const saveAnswer = (answer) => {
+    let uKey= getUserKey();
+    let ansKey = getAnswerKey();
+
+    if(ansKey){
+      props.updateRoomData(`JoinedUsers/${uKey}/answers/${ansKey}/val`, answer);
+    } else {
+      ansKey = genKey(uKey);
+      props.updateRoomData(`JoinedUsers/${uKey}/answers/${ansKey}`, {rnd: roundNum, q: questionNum, val: answer});
     }
-    
   }
 
-  switch(type.toLowerCase()){
-    case "music":
-      let songSrc = props.questionData[questionSetID][questionNum].Song;
-      return <Music headerText={headerText} allowInput={allowInput} src={songSrc} userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
-    case "picture":
-      let imgSrc = props.questionData[questionSetID][questionNum].Image;
-      return <Picture headerText={headerText} allowInput={allowInput}  imgSrc={imgSrc} userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
-    case "question":
-      let question = props.questionData[questionSetID][questionNum].Question;
-      return <Generic headerText={headerText} question={question} allowInput={allowInput}  userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
-    case "choice":
-      let cQues = props.questionData[questionSetID][questionNum].Question;
-      let choices = props.questionData[questionSetID][questionNum].Choices;
-      return <Choice headerText={headerText} question={cQues} choices={choices} allowInput={allowInput} userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
-    case "answer":
+  const saveResult = (result) => {
+    let uKey= getUserKey();
+    let ansKey = getAnswerKey();
 
-      return <Answers type={props.questionData[questionSetID].type} questionData={props.questionData[questionSetID][questionNum]} setResult={setResult} allowInput={allowInput} curAns={ans} />
-    default:
-      return <div>Bad type found - err</div>
+    if(ansKey){
+      props.updateRoomData(`JoinedUsers/${uKey}/answers/${ansKey}/correct`, result);
+    } else {
+      ansKey = genKey(uKey);
+      props.updateRoomData(`JoinedUsers/${uKey}/answers/${ansKey}`, {rnd: roundNum, q: questionNum, val: true, correct: result});
+    }
   }
+
+  const getQuestion = () => {
+    switch(type.toLowerCase()){
+      case "music":
+        let songSrc = props.questionData[questionSetID][questionNum].Song;
+        let startTime = Number(props.questionData[questionSetID][questionNum].startTime);
+        let endTime = Number(props.questionData[questionSetID][questionNum].endTime);
+        return <Music headerText={headerText} src={songSrc} startTime={startTime} endTime={endTime}/>;
+      case "picture":
+        let imgSrc = props.questionData[questionSetID][questionNum].Image;
+        return <Picture headerText={headerText} imgSrc={imgSrc}/>;
+      case "question":
+        let question = props.questionData[questionSetID][questionNum].Question;
+        return <Generic headerText={headerText} question={question}/>;
+      // case "choice":
+      //   let cQues = props.questionData[questionSetID][questionNum].Question;
+      //   let choices = props.questionData[questionSetID][questionNum].Choices;
+      //   return <Choice headerText={headerText} question={cQues} choices={choices} allowInput={allowInput} userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
+
+      default:
+        return <div>Bad type found - err</div>
+    }
+  }
+
+  const getChoice = () => {
+    let choices = props.questionData[questionSetID][questionNum].Choices;
+    if(props.questionData[questionSetID][questionNum].Choices){
+      return <UserAnswer choices={choices} checkAnswer={checkAnswer} allowInput={allowInput} getCurrentAnswer={getCurrentAnswer} saveAnswer={saveAnswer}/>
+    } else {
+      return <UserAnswer choices={null} checkAnswer={checkAnswer} allowInput={allowInput} getCurrentAnswer={getCurrentAnswer} saveAnswer={saveAnswer} />
+    }
+  }
+  if(roundNum === undefined || roundNum === null)
+    return <div>Loading Question...</div>
+  else if(type !== "answer"){
+    return (<> {getQuestion()} {getChoice()}</>);
+  } else {
+    return <Answers type={props.questionData[questionSetID].type} questionData={props.questionData[questionSetID][questionNum]} allowInput={allowInput} getCurrentAnswer={getCurrentAnswer} saveResult={saveResult} />
+  }
+
+  
+
+ 
   
 }
 
