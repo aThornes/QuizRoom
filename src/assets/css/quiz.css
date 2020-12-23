@@ -1,0 +1,34 @@
+#background {
+    color: rgb(218, 215, 215);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background: none;
+    overflow: hidden;
+    filter: none;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#notFound {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(172, 24, 24);
+    font-size: 50px;
+        
+    flex-direction: column;
+
+    filter: drop-shadow(0 0 20px white);
+
+}
+
+#notFoundReturn{
+    font-size: 30px;
+    color:rgb(32, 141, 165);
+    padding-top: 100px;
+}
+
+#notFoundReturn:hover{   
+    color:rgb(67, 179, 204);
+
+}

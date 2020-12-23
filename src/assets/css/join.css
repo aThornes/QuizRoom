@@ -1,0 +1,65 @@
+#roomFlex {
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    
+    filter: drop-shadow(0 0 10px white);
+}
+
+#title {
+    color: red;   
+    font-size: 80px;
+    
+    padding-bottom:15vh;
+    
+}
+
+#roomCode {
+    color: rgb(202, 204, 54);    
+    font-size: 35px;
+    padding-bottom:1vh;
+    
+}
+
+#codeInput{
+    font-size: 20px;
+    color: rgb(37, 92, 130);
+    text-align: center;
+    height:35px;
+    width:190px;    
+}
+
+
+.selected {
+    background-color: rgb(218, 150, 62);
+}
+
+@media (max-width: 568px) {
+    #roomFlex {
+        display:flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        height: 80vh;
+    }
+    
+    #title {
+        color: red;   
+        font-size: 60px;
+        
+        padding-bottom:15vh;
+    }
+    
+    #roomCode {
+        color: rgb(202, 204, 54);    
+        font-size: 32px;
+        padding-bottom:1vh;
+    }
+    
+    #codeInput{
+        height:28px;
+        width:170px;
+    }
+}

@@ -1,0 +1,159 @@
+#setupContainer{
+    width:80vw;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    filter: drop-shadow(0 0 10px white);
+}
+
+#setupWaiting{
+    color: rgb(216, 34, 34);    
+    
+    font-size: 80px;
+    padding-bottom:2vh;
+    padding-bottom:5vh;
+}
+
+#setupListContiner #listTitle{
+    font-size: 50px;
+    color: rgb(31, 182, 199);
+}
+
+
+#setupListContiner #list{
+    font-size: 30px;
+    color: rgb(83, 135, 232);
+    filter: drop-shadow(0 0 15px white);
+}
+#setupListContiner #list div{
+    padding-bottom:1vh;
+    padding-bottom:1vh;
+}
+
+
+#nameContainer{
+    width:60vw;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+}
+
+#nameEnter{
+    color:white;
+    font-size: 30px;
+    
+    filter: drop-shadow(0 0 10px white);
+    padding-top:15vh;
+}
+
+#nameEnterSuffix{
+    color:white;
+    font-size: 24px;
+    
+    filter: drop-shadow(0 0 10px white);
+    padding-bottom: 10px;
+}
+
+#nameContainer input{
+    font-size: 16px;
+    width:20vw;
+    text-align: center;
+}
+
+#nameButtonContainer{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding-top:10vh;
+}
+
+#nameButtonContainer span{
+    padding-left:10px;
+    padding-right:10px;
+}
+
+#nameEnterError{
+    color:white;
+}
+
+#nameEnterError #red{
+    color:rgba(218, 17, 17, 0.775);
+}
+
+.nameSubmit{
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+.nameSubmit:hover{
+    background-color: rgb(163, 161, 161);
+    transition-duration:0.4s;
+}
+
+@media (max-width: 568px) {
+    #setupWaiting{        
+        font-size: 25px;
+    }
+    
+    #setupListContiner #listTitle{
+        font-size: 30px;
+    }    
+    
+    #setupListContiner #list{
+        font-size: 25px;
+    }
+
+    #nameContainer{
+        width:80vw;
+    }
+    
+    #nameEnter{
+        font-size: 30px;        
+    }
+
+    #nameEnterSuffix{
+        font-size: 24px;  
+    }
+    
+    #nameContainer input{
+        font-size: 16px;
+        height:3vh;
+        width:80%;    
+    }
+    
+    #nameButtonContainer{
+        padding-top:10vh;
+        flex-direction: column;
+    }
+    
+    #nameButtonContainer span{
+        padding-top:2vh;
+        padding-bottom:2vh;
+    }
+    
+    .nameSubmit{
+        width:60vw;
+        font-size: 10px;
+        padding: 20px 10px; 
+        
+    }
+    
+}

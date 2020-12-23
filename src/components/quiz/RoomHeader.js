@@ -33,17 +33,18 @@ function RoomHeader(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum])
  
-
   return (
-    <>
-    <div>{readyPlayers}/{totalPlayers}</div>
-    <div onClick={() => setClicked(clicked === true ? false : true)}>
-        <div>Room Code</div>
-        <div>{props.roomCode}</div>
-        {clicked ? <div>Back</div> : <> </>}
+    <div id="roomHeader">
+      <div id="headerContainer">
+      {props.roomData.Stage === 1 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
+      <div onClick={() => setClicked(clicked === true ? false : true)}>
+          <div>Room Code</div>
+          <div>{props.roomCode}</div>          
+      </div>
+      {clicked ? <div onClick={() => props.leaveRoom()}>Leave Room</div> : <> </>}
+      <div>Logged in as: {props.loggedName}</div>
+      </div>
     </div>
-    <div>Logged in as: {props.loggedName}</div>
-    </>
   );
 }
 

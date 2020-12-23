@@ -78,10 +78,12 @@ function RoomFooter(props) {
       if((questionNum > 0 && questionNum < 100) || questionNum > 100) prevQues = true;
 
       return(<>
-        <button disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>Previous Round</button>
-        <button disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>Next Round</button>
-        <button disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>Previous Question</button>
-        <button disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>Next Question</button>
+        <button disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>&gt;</button>
+        Round
+        <button disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&lt;</button>
+        <button disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&gt;</button>
+        Question
+        <button disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&lt;</button>
         {(questionNum < 100 ?
         <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
         <button onClick={() => props.updateRoomData("QuestionNum", upperQuestionBound)}>Questions</button>
@@ -94,7 +96,7 @@ function RoomFooter(props) {
   
   const getOptions = () => {
     return(
-        <div>
+        <div id="footerOptions">
             {getQuestionOptions()}
             {getStageOption()}
             {props.roomData.QuestionNum >= 100 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
@@ -127,15 +129,15 @@ function RoomFooter(props) {
 
   if(props.isAdmin || props.auth){
     return (
-        <>
-        <div>
-            <button onClick={() => setClicked(clicked === true ? false : true)}>Manage</button>
+        <div id="roomFooter">
+          <div>
+              <button onClick={() => setClicked(clicked === true ? false : true)}>Manage</button>
+          </div>
+          {clicked ? 
+          <div>
+              {props.auth ? getOptions() : getLogin()}
+          </div> : <> </>}
         </div>
-        {clicked ? 
-        <div>
-            {props.auth ? getOptions() : getLogin()}
-        </div> : <> </>}
-        </>
       );
   } else {
       return(<> </>);

@@ -10,7 +10,7 @@ import NotFound from "./NotFound";
 
 import firebase from "./firebase";
 
-import "../quiz.css";
+import "../assets/css/quiz.css";
 
 require('dotenv').config();
 
@@ -79,11 +79,12 @@ function AppRouter(props){
         });
       }
 
-    const userLogin = (username, password) => {
+    const userLogin = async(username, password) => {
         firebase.auth()
         .signInWithEmailAndPassword(username, password)
-        .then(setAuthenticated(true))
-        .catch(setAuthenticated(false));
+        .then(() => {setAuthenticated(true); return true;})
+        .catch(() => {setAuthenticated(false); return false;});
+        
     }
 
     const logoutUser = async () => {
@@ -92,6 +93,7 @@ function AppRouter(props){
       }
     
     return(
+        <div id="background">
             <Router history={history}>
                 <Switch>
                     <Route exact path = "/">{redirectUser}</Route>
@@ -117,9 +119,10 @@ function AppRouter(props){
                             getQuestionData={getQuestionData}
                             questionData={questionData}/>
                     </Route>
-                    <Route> <NotFound /> </Route>
+                    <Route path="/"> <NotFound history={history}/> </Route>
                 </Switch>
             </Router>
+        </div>
     );
     
 }

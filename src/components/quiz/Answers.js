@@ -5,9 +5,9 @@ function Answers(props) {
     const getQuestion = () => {
         switch(props.type.toLowerCase()){
             case "music":     
-                return <div>Music not yet supported</div>
+                return <div>Music summary not yet supported</div>
             case "picture":
-                return <div>Picture</div>
+                return <div>{props.questionData.Image}</div>
             case "question":
             case "choice":
                 return <div>{props.questionData.Question}</div>
@@ -19,7 +19,6 @@ function Answers(props) {
     const getAnswer = () => {
         switch(props.type.toLowerCase()){
             case "music":     
-                return <div><div>Artist: {props.questionData.Artist}</div><div>Song: ${props.questionData.Track}</div></div>
             case "picture":
             case "question":
                 return <div>Actual Answer: {props.questionData.Answer}</div>
@@ -31,16 +30,19 @@ function Answers(props) {
     }
 
     const submitResult = (correct) => {
-        props.setResult(correct);
+        props.saveResult(correct);
     }
 
     let userAnswer = "Loading";
     let disabledCor, disabledInc = false;
+
+    const curAns = props.getCurrentAnswer();
+    const curCorrect = props.getAnswerCorrect();
     
-    if(props.curAns){
-        userAnswer = props.curAns.val;
-        disabledCor = props.curAns.correct === true;
-        disabledInc = props.curAns.correct === false;
+    if(curAns){
+        userAnswer = curAns;
+        disabledCor = curCorrect === true;
+        disabledInc = curCorrect === false;
     }
 
     

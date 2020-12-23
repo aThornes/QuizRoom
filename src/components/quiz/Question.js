@@ -36,9 +36,9 @@ function Question(props) {
     setType(qType);
     setHeaderText(text);
 
-    if(questionNum >= 100){
+    if(qNum >= 100){
       setType("answer");
-      setQuestionNum(questionNum - 100);
+      setQuestionNum(qNum - 100);
     } 
     
 // eslint-disable-next-line react-hooks/exhaustive-deps 
@@ -57,10 +57,12 @@ function Question(props) {
   const getAnswerKey = () => {
     let uKey= getUserKey();
 
-    const userAnswerList = props.roomData.JoinedUsers[uKey].answers;
+    const userObj = props.roomData.JoinedUsers[uKey];
 
-    if(userAnswerList){
-      let ansKeys = Object.keys(props.roomData.JoinedUsers[uKey].answers);
+    if(userObj){
+      const userAnswerList = userObj.answers;
+      if(!userAnswerList) return null;
+      let ansKeys = Object.keys(userAnswerList);
       let foundKey = null;
 
       ansKeys.forEach(k=> {
@@ -92,6 +94,16 @@ function Question(props) {
     setCheckAnswer(false);
     if(ansKey){
       return props.roomData.JoinedUsers[uKey].answers[ansKey].val;
+    } else return null;
+  }
+
+  const getAnswerCorrect = () => {
+    let uKey= getUserKey();
+    let ansKey = getAnswerKey();
+
+    setCheckAnswer(false);
+    if(ansKey){
+      return props.roomData.JoinedUsers[uKey].answers[ansKey].correct;
     } else return null;
   }
 
@@ -132,11 +144,6 @@ function Question(props) {
       case "question":
         let question = props.questionData[questionSetID][questionNum].Question;
         return <Generic headerText={headerText} question={question}/>;
-      // case "choice":
-      //   let cQues = props.questionData[questionSetID][questionNum].Question;
-      //   let choices = props.questionData[questionSetID][questionNum].Choices;
-      //   return <Choice headerText={headerText} question={cQues} choices={choices} allowInput={allowInput} userDone={userDone} setAsDone={setAsDone} curAns={ans}/>;
-
       default:
         return <div>Bad type found - err</div>
     }
@@ -153,9 +160,19 @@ function Question(props) {
   if(roundNum === undefined || roundNum === null)
     return <div>Loading Question...</div>
   else if(type !== "answer"){
-    return (<> {getQuestion()} {getChoice()}</>);
+    try{
+       return (<> {getQuestion()} {getChoice()}</>);
+    } catch {
+      return <div>Loading...</div>
+    }
   } else {
-    return <Answers type={props.questionData[questionSetID].type} questionData={props.questionData[questionSetID][questionNum]} allowInput={allowInput} getCurrentAnswer={getCurrentAnswer} saveResult={saveResult} />
+    return <Answers 
+      type={props.questionData[questionSetID].type} 
+      questionData={props.questionData[questionSetID][questionNum]} 
+      allowInput={allowInput} 
+      getCurrentAnswer={getCurrentAnswer} 
+      getAnswerCorrect={getAnswerCorrect} 
+      saveResult={saveResult} />
   }
 
   

@@ -9,6 +9,10 @@ import Finale from './quiz/Finale';
 
 import makeID from "./utils";
 
+import "../assets/css/main.css";
+import "../assets/css/setup.css";
+import "../assets/css/headerFooter.css";
+
 function Room(props) {  
   
   let [roomCode, setRoomCode] = useState(null);
@@ -45,8 +49,15 @@ function Room(props) {
   }, []);
 
   useEffect(() => {
-      if(props.roomData){
-        let foundUserData = props.roomData.JoinedUsers.find(val => val.name === name);
+      if(props.roomData && props.roomData.JoinedUsers){
+
+        let userKeys = Object.keys(props.roomData.JoinedUsers);
+
+        let foundUserData = null;
+        userKeys.forEach(user => {
+          if(props.roomData.JoinedUsers[user].key === logKey) foundUserData = props.roomData.JoinedUsers[user];
+        })
+
         setUserData(foundUserData);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps 
@@ -56,11 +67,17 @@ function Room(props) {
     props.updateRoomData(roomCode, addr, newData);
   }
 
+  const leaveRoom = () => {
+    props.history.push("/join");
+    window.location.reload();
+  }
+
   const getHeader = () => {
     return <RoomHeader
             roomCode={roomCode} 
             loggedName={name}
-            roomData={props.roomData}/>;
+            roomData={props.roomData}
+            leaveRoom ={leaveRoom}/>;
   }
 
   const getFooter = () => {
@@ -88,15 +105,16 @@ function Room(props) {
     }    
   }  
 
-  const submitName = (e) => {
-    e.preventDefault();
+  const submitName = (userInput) => {
     if(name.length >= 3 && name.length <= 15){
-      let nameKeys = Object.keys(props.roomData.JoinedUsers);
       let found = false;
-      for(let i = 0; i < nameKeys.length; i++){
-        if(name.toLowerCase() === props.roomData.JoinedUsers[nameKeys[i]].name.toLowerCase()){
-          found = true;
-          break;
+      if(props.roomData.JoinedUsers){
+        let nameKeys = Object.keys(props.roomData.JoinedUsers);
+        for(let i = 0; i < nameKeys.length; i++){
+          if(name.toLowerCase() === props.roomData.JoinedUsers[nameKeys[i]].name.toLowerCase()){
+            found = true;
+            break;
+          }
         }
       }
 
@@ -104,23 +122,34 @@ function Room(props) {
         setInvalid("Name already in use!");
       } else {
 
-        let count = Object.keys(props.roomData.JoinedUsers).length;
-
         let newLogKey = makeID(32);
+        let userKey = makeID(4);
 
-        let addData = {name: name, key: newLogKey}
+        while(props.roomData.JoinedUsers && Object.keys(props.roomData.JoinedUsers).includes(userKey)) userKey = makeID(4);
 
-        props.roomData.JoinedUsers.push(addData);
+        let addData = {name: name, key: newLogKey, input: userInput}
 
-        props.updateRoomData(roomCode, `JoinedUsers/${count}`, addData);
+        props.updateRoomData(roomCode, `JoinedUsers/${userKey}`, addData);
 
         setReady(true);
 
         /* Store cookie to keep user login */
         localStorage.setItem(`quizzicle-log-key-${roomCode}`, newLogKey);
         setLogKey(newLogKey);
-      }
 
+        if(props.roomData.Admin !== undefined && props.roomData.Admin !== null){
+          /* Check if user is already defined as Admin (tbh this shouldn't even happen) */
+          if(userAdmin === null){
+            if(props.roomData.JoinedUsers[props.roomData.Admin]){
+              if(props.roomData.JoinedUsers[props.roomData.Admin].name === name) setUserAdmin(true);
+              else setUserAdmin(false);
+            }
+          }
+        } else {
+          /* If there is no admin, allow user to log in (this will set user as admin) Note: this breaks if user joins then leaves before logging in :( ) */
+          setUserAdmin(true);
+        }
+      }
     } else {
       setInvalid(name.length < 3 ? "Name too short! (min: 3 char)" : "Name too long! (max: 15 char)");
     }
@@ -128,12 +157,19 @@ function Room(props) {
 
   const userEnterName = () => {
     return(
-      <div>
-        Enter your name:
-        <form autoComplete="off" onSubmit={(e) => submitName(e)}>
-          <input data-lpignore="true" type="text" name="username" value={name} onChange={(e) => {setName(e.target.value)}}></input>
-        </form>
-        {invalid ? <div>*Invalid username - {invalid}</div> : <></>}
+      <div id="nameContainer">
+        <div id="nameEnter">Enter your name</div>   
+        <div id="nameEnterSuffix">(or teamname)</div>   
+
+        <input data-lpignore="true" type="text" name="username" value={name} onChange={(e) => {setName(e.target.value)}}></input>
+
+        <div id="nameEnterError">{invalid ? <><span id="red">*</span><span>Invalid username - {invalid}</span></> : <></>}</div>
+
+        <div id="nameButtonContainer">
+          <span><button className="nameSubmit" onClick={() => submitName(true)}>I'll write on my device</button></span>
+          <span><button className="nameSubmit" onClick={() => submitName(false)}>I'll use Pen and Paper</button></span>
+        </div>
+        
       </div>
     );
   }
@@ -155,24 +191,27 @@ function Room(props) {
     
     if(!ready && !logKey){
       /* Check if cookie has a valid key */
-      let logKey = localStorage.getItem(`quizzicle-log-key-${roomCode}`);
+      let foundKey = localStorage.getItem(`quizzicle-log-key-${roomCode}`);
       
-      let keyList = Object.keys(props.roomData.JoinedUsers);
-      
-      for(let i = 0; i < keyList.length; i++){
-        if(logKey === props.roomData.JoinedUsers[keyList[i]].key){
-          setName(props.roomData.JoinedUsers[keyList[i]].name);
-          setReady(true);
-          setLogKey(logKey);
-          break;
+      if(props.roomData.JoinedUsers){
+        let keyList = Object.keys(props.roomData.JoinedUsers);
+        
+        for(let i = 0; i < keyList.length; i++){
+          if(foundKey === props.roomData.JoinedUsers[keyList[i]].key){
+            setName(props.roomData.JoinedUsers[keyList[i]].name);
+            setReady(true);
+            setLogKey(foundKey);
+            if(props.roomData.Admin !== undefined && props.roomData.Admin !== null){
+              if(props.roomData.JoinedUsers[props.roomData.Admin].key === foundKey) setUserAdmin(true);
+              else setUserAdmin(false);
+            }
+
+            break;
+          }
         }
       }
     }
 
-    if(userAdmin === null && name && name.length >= 3){
-      if(props.roomData.JoinedUsers[props.roomData.Admin].name === name) setUserAdmin(true);
-      else setUserAdmin(false);
-    }
 
     /* Room success */
     if(ready)
@@ -181,12 +220,13 @@ function Room(props) {
       return userEnterName();
     else return <div>Quiz has already started!</div>
   } 
-  else{}
+  else{
     return (    
       <div>
         Loading...
       </div>
     );
+  }
   }
 
 
