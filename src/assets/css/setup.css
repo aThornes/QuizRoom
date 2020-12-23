@@ -1,9 +1,9 @@
 #setupContainer{
     width:80vw;
-    align-items: center;
     flex-direction: column;
     justify-content: center;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     filter: drop-shadow(0 0 10px white);
 }
@@ -13,23 +13,24 @@
     
     font-size: 80px;
     padding-bottom:2vh;
-    padding-bottom:5vh;
+    padding-bottom:10vh;
 }
 
 #setupListContiner #listTitle{
     font-size: 50px;
-    color: rgb(31, 182, 199);
+    color: rgb(45, 16, 124);
+    padding-bottom:5vh;
 }
-
 
 #setupListContiner #list{
     font-size: 30px;
-    color: rgb(83, 135, 232);
-    filter: drop-shadow(0 0 15px white);
+    color: rgb(209, 49, 37);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(55, 55, 55);
 }
+
 #setupListContiner #list div{
-    padding-bottom:1vh;
-    padding-bottom:1vh;
+    padding-bottom:1.5vh;
 }
 
 

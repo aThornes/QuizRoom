@@ -1,0 +1,20 @@
+#genericQuestion{
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    filter: drop-shadow(0 0 10px white);
+}
+
+#genericQuestion h2{
+    color: rgb(146, 50, 179);
+    font-size: 25px;
+    padding-bottom: 3vh;
+}
+
+#genericQuestion div{
+    color: rgb(100, 37, 121);
+    font-size: 20px;
+    padding-bottom: 3vh;
+}

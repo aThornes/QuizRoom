@@ -1,0 +1,26 @@
+#pictureQuestion{
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#pictureQuestion h2{
+    color: rgb(146, 50, 179);
+    font-size: 25px;
+    padding-bottom: 2vh;
+}
+
+#pictureQuestion img {
+    object-fit: contain;
+    height: 35vh;
+}
+
+
+@media (max-height: 900px) {
+    #pictureQuestion img {
+        object-fit: contain;
+        height: 25vh;
+    }
+}

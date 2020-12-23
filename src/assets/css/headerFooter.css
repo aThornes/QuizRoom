@@ -1,9 +1,25 @@
+#roomHeaderContainer{
+    display:flex;
+    margin-right:auto;
+    margin-left:auto;
+    padding-bottom: 8vh;
+}
+
 #roomHeader{
-    text-align: left;
+    position: absolute;
+    right:2vw;
+    text-align: center;
     width: 20vw;
-    background: rgba(116, 19, 19, 0.35);
     border-radius: 5px;
-    margin-left: auto;
+    z-index: 2;
+}
+
+#roomHeader div{
+    padding-bottom: 1vh;
+}
+
+#roomHeader #leaveButton:hover{
+    color: rgb(245, 115, 115);
 }
 
 #headerContainer{
@@ -82,6 +98,83 @@
     padding: 20px 10px; 
 }
 
-@media (max-width: 568px) {
+#quizStarted{
+    display:flex;
+    margin:auto;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    filter: drop-shadow(0 0 20px white);
+}
 
+
+#quizStarted div{
+    font-size: 50px;
+    padding-bottom: 5vh;
+}
+
+
+#quizStarted span{
+    font-size: 35px;
+    padding-bottom: 10vh;
+}
+
+#quizStarted #returnButton:hover {
+    color:rgb(78, 78, 242);
+}
+
+#roomHeaderProgress{
+    display:flex;
+    margin-right:auto;
+    margin-left:auto;
+    align-items: center;
+    height:3vh;
+}
+
+.progressIcon{
+    width:3vh;
+}
+
+.progressWaiting{
+    filter: brightness(20%);
+}
+
+.lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-hourglass:after {
+    filter: none;
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    width: 0;
+    height: 0;
+    margin: 8px;
+    box-sizing: border-box;
+    border: 32px solid rgb(35, 7, 112);
+    border-color: rgb(35, 7, 112) transparent rgb(35, 7, 112) transparent;
+    animation: lds-hourglass 1.4s infinite;
+  }
+  @keyframes lds-hourglass {
+    0% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50% {
+      transform: rotate(900deg);
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+    100% {
+      transform: rotate(1800deg);
+    }
+  }
+  
+
+@media (max-width: 568px) {
+    #roomHeader{
+        width: 35vw;
+    }
 }

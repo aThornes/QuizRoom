@@ -1,0 +1,58 @@
+#userInput{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 50px;
+    color: red;
+    filter: drop-shadow(0 0 10px white);
+    padding-bottom: 8vh;
+}
+
+#userInput input{
+    height: 5vh;
+    font-size: 18px;
+    text-align: center;
+    width: 60vw;
+}
+
+#userInput button{
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+#inputField{
+    padding-bottom: 5vh;
+}
+
+#userInput button:hover {
+    background-color: rgb(163, 161, 161);
+    transition-duration:0.4s;
+}
+
+#userOptions{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#userOptions .buttonContainer{
+    width:50vw;
+}
+
+#userOptions .buttonContainer button{
+    width:100%;
+}

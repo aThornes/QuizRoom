@@ -6,10 +6,12 @@ function Summary(props) {
 
   return (
     <>
-    <div className="absolute">
-    {snowArray.map((a, idx) => {
-        return <div className="snow" key={idx}/>
-    })}</div>
+    <div>
+      <div className="absolute">
+      {snowArray.map((a, idx) => {
+          return <div className="snow" key={idx}/>
+      })}</div>
+    </div>
     <div id="roundHeaderContainer">
         <div id="roundHeader">Round {props.roundNum + 1} Summary</div>
         <div id="roundSubHeader">{props.headerText}</div>

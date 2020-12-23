@@ -12,6 +12,9 @@ import makeID from "./utils";
 import "../assets/css/main.css";
 import "../assets/css/setup.css";
 import "../assets/css/headerFooter.css";
+import "../assets/css/answer.css"
+import "../assets/css/question.css"
+import "../assets/css/picture.css"
 
 function Room(props) {  
   
@@ -23,6 +26,8 @@ function Room(props) {
   let [userData, setUserData] = useState(null);
 
   const [logKey, setLogKey] = useState(null);
+
+  const snowArray = Array(199).fill(1);
   
   useEffect(() => {
 
@@ -77,6 +82,7 @@ function Room(props) {
             roomCode={roomCode} 
             loggedName={name}
             roomData={props.roomData}
+            showProgress={props.roomData.Stage === 1 && props.roomData.QuestionNum < 99}
             leaveRoom ={leaveRoom}/>;
   }
 
@@ -175,7 +181,9 @@ function Room(props) {
   }
 
   /* Check room code and data is valid before displaying main quiz */
-  if(roomCode && roomCode.length !== 5){
+  const renderState = ((roomCode && roomCode.length) !== 5 ? "invalid" : ((roomCode && props.roomData) ? "room" : "load"));
+
+  if(renderState === "invalid"){
     /* Invalid room code */
     if(roomCode === "roo" || roomCode === "room"){
       //props.history.push("/join"); //No code provided so take user to join page
@@ -187,7 +195,7 @@ function Room(props) {
     /* Room code invalid */
     return (<div> Invalid room code </div>);
   }
-  else if(roomCode && props.roomData){    
+  else if(renderState === "room"){    
     
     if(!ready && !logKey){
       /* Check if cookie has a valid key */
@@ -218,12 +226,26 @@ function Room(props) {
       return displayQuizData();
     else if(props.roomData.Stage === 0)
       return userEnterName();
-    else return <div>Quiz has already started!</div>
-  } 
+    else return (
+      <>
+      <div>
+      <div className="absolute">
+      {snowArray.map((a, idx) => {
+          return <div className="snow" key={idx}/>
+      })}</div>
+    </div>
+      <div id="quizStarted">
+        <div>Too late!</div>
+        <span>Quiz has already started!</span>
+        <span id="returnButton" onClick={() => leaveRoom()}>Return</span>
+      </div>
+      </>
+      );
+    } 
   else{
     return (    
-      <div>
-        Loading...
+      <div id="quizStarted">
+        <div class="lds-hourglass"></div>
       </div>
     );
   }

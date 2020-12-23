@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
+import userCompletedImage from '../../assets/userCompleted.png'
+
 function RoomHeader(props) {  
 
   let [clicked, setClicked] = useState(false);
@@ -16,7 +18,7 @@ function RoomHeader(props) {
     let questionNum = props.roomData.QuestionNum;
 
     Object.keys(props.roomData.JoinedUsers).forEach(p => {
-      const user = props.roomData.JoinedUsers[p]
+      const user = props.roomData.JoinedUsers[p];
       if(user.answers){
         
         Object.keys(user.answers).forEach(ansKey => {
@@ -31,18 +33,40 @@ function RoomHeader(props) {
     setReadyPlayers(numPlayersCompleted);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum])
+  }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum]);
+
+  const getCompleteIcons = () => {
+    let progressList = [];
+    let userIndex = -1; //todo
+
+    console.log(totalPlayers, readyPlayers);
+
+    for(let i = 0; i < totalPlayers; i++){
+      if(readyPlayers >= (i+1)) progressList.push(1);
+      else progressList.push(0);
+    }
+
+    return progressList.map((v, idx) => {
+      if(v === 1)
+        return <img className={`progressIcon progressReady ${idx=userIndex ? "highlighted" : ""}`} key={idx} src={userCompletedImage} alt="userReady" />
+      else
+        return <img className={`progressIcon progressWaiting ${idx=userIndex ? "highlighted" : ""}`}  key={idx} src={userCompletedImage} alt="userReady" />
+    });
+  }
  
   return (
-    <div id="roomHeader">
-      <div id="headerContainer">
-      {props.roomData.Stage === 1 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
-      <div onClick={() => setClicked(clicked === true ? false : true)}>
-          <div>Room Code</div>
-          <div>{props.roomCode}</div>          
+    <div id="roomHeaderContainer">
+      <div id="roomHeaderProgress">
+        {props.showProgress ? getCompleteIcons() : <></>}
       </div>
-      {clicked ? <div onClick={() => props.leaveRoom()}>Leave Room</div> : <> </>}
-      <div>Logged in as: {props.loggedName}</div>
+      <div id="roomHeader">
+        <div id="headerContainer">
+        <div onClick={() => setClicked(clicked === true ? false : true)}>
+            <div>Room Code</div>
+            <div>{props.roomCode}</div>          
+        </div>
+        {clicked ? <div id="leaveButton" onClick={() => props.leaveRoom()}>Leave Room</div> : <> </>}
+        </div>
       </div>
     </div>
   );

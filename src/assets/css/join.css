@@ -1,3 +1,5 @@
+
+
 #roomFlex {
     display:flex;
     align-items: center;
@@ -8,19 +10,36 @@
     filter: drop-shadow(0 0 10px white);
 }
 
-#title {
-    color: red;   
-    font-size: 80px;
-    
-    padding-bottom:15vh;
-    
+.joinText {
+    font-family: monaShark;
+    text-transform: uppercase;
+    color:rgb(61, 30, 121);
+    background: black;
+    background-clip: text;
 }
 
-#roomCode {
-    color: rgb(202, 204, 54);    
-    font-size: 35px;
-    padding-bottom:1vh;
-    
+.joinText #textSmall{
+    font-size:35px;
+}
+
+#joinText1, #joinText3{
+    /* width:20vw; */
+    font-size:60px;
+}
+
+#joinText3{
+    padding-bottom: 10vh;
+}
+
+#joinText2 {
+    /* width:15vw; */
+    font-size:150px;
+    color:rgb(101, 47, 187);
+}
+
+#joinTextRoom{
+    /* width:12vw; */
+    font-size:35px;
 }
 
 #codeInput{
@@ -61,5 +80,25 @@
     #codeInput{
         height:28px;
         width:170px;
+    }
+    
+    .joinText #textSmall{
+        font-size:30px;
+    }
+    
+    #joinText1, #joinText3{
+        font-size:50px;
+    }
+    
+    #joinText3{
+        padding-bottom: 10vh;
+    }
+    
+    #joinText2 {
+        font-size:90px;
+    }
+    
+    #joinTextRoom{
+        font-size:25px;
     }
 }

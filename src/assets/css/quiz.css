@@ -1,6 +1,8 @@
 #background {
     color: rgb(218, 215, 215);
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: naturalMarker;
+    text-transform: uppercase;
+    color:rgb(61, 30, 121);
     background: none;
     overflow: hidden;
     filter: none;
@@ -47,22 +49,24 @@
     color: red;
     font-size: 60px;
     padding-bottom: 3vh;
+    padding-bottom:10vh;
 } 
 
 #roundSubHeader {
     color: rgb(211, 7, 7);
     font-size: 40px;
     padding-bottom: 5vh;
+    padding-bottom:30vh;
 } 
 
 #notFoundReturn{
     font-size: 30px;
-    color:rgb(32, 141, 165);
+    color:rgb(95, 15, 106);
     padding-top: 100px;
 }
 
-#notFoundReturn:hover{   
-    color:rgb(67, 179, 204);
+#notFoundReturn span:hover{   
+    color:rgb(136, 30, 150);
 }
 
 @media (max-width: 568px) {

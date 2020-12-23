@@ -44,7 +44,7 @@ function UserAnswer(props) {
   const getChoiceOptions = () => {
     return (<>
       {props.choices.map((choice, idx) => {
-        return <button className={`choiceButton ${answer === idx ? "selected" : ""}`} disabled={!props.allowInput} key={idx} onClick={() => submitChoiceAnswer(idx)}>{choice}</button>
+        return <div className="buttonContainer"key={idx}><button className={`choiceButton ${answer === idx ? "selected" : ""}`} disabled={!props.allowInput} onClick={() => submitChoiceAnswer(idx)}>{choice}</button></div>
       })}
     </>);
   }
@@ -55,9 +55,21 @@ function UserAnswer(props) {
   }
 
   if(props.choices){
-    return (<>{getChoiceOptions()}</>);
+    return (
+    <div id="userInput">
+      <div id="userOptions">{getChoiceOptions()}</div>
+    </div>);
   } else {
-    return (<>{getInputField()}{getSubmitButton()}</>);
+    return (
+    <div id="userInput">
+      <div id="inputField">
+        {getInputField()}
+      </div>
+      <div id="submitButton">
+        {getSubmitButton()}
+      </div>
+    </div>
+    );
   }
 }
 
