@@ -5,8 +5,10 @@ import makeID from '../utils'
 import Music from './Music';
 import Picture from './Picture';
 import Generic from './Generic';
+import Intro from './Intro';
 import Answers from './Answers';
 import UserAnswer from './UserAnswer';
+import Summary from './Summary';
 
 
 function Question(props) {  
@@ -22,7 +24,7 @@ function Question(props) {
   useEffect(() => {
     if(!props.roomData) return;
     const rnd = props.roomData.RoundNum;
-    const qNum = props.roomData.QuestionNum;
+    const qNum = props.roomData.QuestionNum;   
     const id = props.roomData.Questions[rnd].id;
     const qType = props.questionData[id].type;
     const text = props.questionData[id].text;
@@ -40,6 +42,12 @@ function Question(props) {
       setType("answer");
       setQuestionNum(qNum - 100);
     } 
+    else if(qNum < 0){
+      setType("intro");
+    } 
+    else if(qNum === 99){
+      setType("summary");
+    }
     
 // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [props.roomData, props.questionData]);
@@ -159,13 +167,7 @@ function Question(props) {
   }
   if(roundNum === undefined || roundNum === null)
     return <div>Loading Question...</div>
-  else if(type !== "answer"){
-    try{
-       return (<> {getQuestion()} {getChoice()}</>);
-    } catch {
-      return <div>Loading...</div>
-    }
-  } else {
+  else if(type === "answer"){
     return <Answers 
       type={props.questionData[questionSetID].type} 
       questionData={props.questionData[questionSetID][questionNum]} 
@@ -173,11 +175,18 @@ function Question(props) {
       getCurrentAnswer={getCurrentAnswer} 
       getAnswerCorrect={getAnswerCorrect} 
       saveResult={saveResult} />
-  }
-
+  } else if(type === "intro"){
+    return <Intro roundNum={roundNum} headerText={headerText}/>  
+  } else if(type==="summary"){
+    return <Summary questionNum={questionNum} roundNum={roundNum} roomData={props.roomData} />  
+  }else {
+    try{
+      return (<> {getQuestion()} {getChoice()}</>);
+   } catch {
+     return <div>Loading...</div>
+   }
+  }  
   
-
- 
   
 }
 

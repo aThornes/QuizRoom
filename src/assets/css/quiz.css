@@ -6,6 +6,16 @@
     filter: none;
     height: 100vh;
     overflow: hidden;
+    display:flex;
+    flex-direction: column;
+}
+
+.absolute{
+    position: absolute;
+    overflow: hidden;
+    width:100vw;
+    height:100vh;
+    pointer-events: none;
 }
 
 #notFound {
@@ -19,8 +29,31 @@
     flex-direction: column;
 
     filter: drop-shadow(0 0 20px white);
-
 }
+
+#roundHeaderContainer{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    padding-top:10vh;
+    
+    filter: drop-shadow(0 0 10px white);
+}
+
+#roundHeader {
+    color: red;
+    font-size: 60px;
+    padding-bottom: 3vh;
+} 
+
+#roundSubHeader {
+    color: rgb(211, 7, 7);
+    font-size: 40px;
+    padding-bottom: 5vh;
+} 
 
 #notFoundReturn{
     font-size: 30px;
@@ -30,5 +63,16 @@
 
 #notFoundReturn:hover{   
     color:rgb(67, 179, 204);
+}
 
+@media (max-width: 568px) {
+    #roundHeader {
+        font-size: 50px;
+        padding-bottom: 8vh;
+    } 
+    
+    #roundSubHeader {
+        font-size: 35px;
+        padding-bottom: 5vh;
+    }     
 }

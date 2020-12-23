@@ -1,6 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
 import ReactPlayer from 'react-player/soundcloud'
 
+import "../../assets/css/music.css"
+
+import playImage from "../../assets/play.png";
+import pauseImage from "../../assets/pause.png";
+import repeatImage from "../../assets/repeat.png";
+
 function Music(props) {  
 
   const [playerVolume] = useState(0.8);
@@ -22,12 +28,18 @@ function Music(props) {
 
   const musicProgress = (e) => {
     if(e.playedSeconds > props.endTime){
-      setPlay(false);
+      setPlaying(false);
       setHitEnd(true);
+    } else if (e.playedSeconds < props.statTime){
+      musicPlayer.current.seekTo(props.startTime, 'seconds');
     }
   }
 
   const setPlay = (play) => {
+    if(hitEnd){
+      musicPlayer.current.seekTo(props.startTime, 'seconds');
+    }
+
     setPlaying(play);
   }
 
@@ -35,20 +47,23 @@ function Music(props) {
     musicPlayer.current.seekTo(props.startTime, 'seconds');
     setPlay(true);
   }
-
   
 
   return (
     <div>
-        <ReactPlayer ref={musicPlayer} id="quizz-music-player"
-          url={`https://soundcloud.com/${props.src}` }
-          playing={playing}
-          volume={playerVolume}
-          onProgress={(e) => musicProgress(e)}/>
-       
-        {playing === true ? <button onClick={() => setPlay(false)}>Pause</button> : <button disabled={hitEnd} onClick={() => setPlay(true)}>Play</button>}
-        <button onClick={() => replayTrack()}>Replay</button>
+      <div id="musicHeader">{props.headerText}</div>
+      <ReactPlayer ref={musicPlayer} id="quizz-music-player"
+        url={`https://soundcloud.com/${props.src}` }
+        playing={playing}
+        volume={playerVolume}
+        onProgress={(e) => musicProgress(e)}/>
+        
+      <div id="musicControls">
+        {playing === true ? <img src={pauseImage} className="musicIcon" alt="musicPlay" onClick={() => setPlay(false)}/> : <img src={playImage} className="musicIcon" alt="musicPause" disabled={hitEnd} onClick={() => setPlay(true)}/>}
+        <img src={repeatImage} alt="musicReplay" className="musicIcon" onClick={() => replayTrack()} />
+      </div>
     </div>
+    
   );
 }
 

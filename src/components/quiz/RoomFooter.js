@@ -57,7 +57,7 @@ function RoomFooter(props) {
 
   const changeRound = (newVal) => {
     props.updateRoomData("RoundNum", newVal);
-    props.updateRoomData("QuestionNum", 0)
+    props.updateRoomData("QuestionNum", -1)
   }
 
   const getQuestionOptions = () => {
@@ -75,33 +75,39 @@ function RoomFooter(props) {
 
       if((questionNum < upperQuestionBound && questionNum < 100) || (questionNum >= 100 && questionNum < (100 + upperQuestionBound)))  nextQues = true;
 
-      if((questionNum > 0 && questionNum < 100) || questionNum > 100) prevQues = true;
+      if((questionNum >= 0 && questionNum < 100) || questionNum > 100) prevQues = true;
 
       return(<>
-        <button disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>&gt;</button>
-        Round
-        <button disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&lt;</button>
-        <button disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&gt;</button>
-        Question
-        <button disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&lt;</button>
-        {(questionNum < 100 ?
-        <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
+        <button className="footerArrow" disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>&lt;</button>
+        <div className="footerText">Round</div>
+        <button className="footerArrow" disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&gt;</button>
+        <button className="footerArrow" disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&lt;</button>
+        <div className="footerText">Question</div>
+        <button className="footerArrow" disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&gt;</button>
+
+        { questionNum < 99 ? <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
+        (questionNum >= 100) ? 
+        <button onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary</button> :
         <button onClick={() => props.updateRoomData("QuestionNum", upperQuestionBound)}>Questions</button>
-        )}
-      </>);
-      
+        }
+      </>);      
 
     } else return (<> </>);
   }
   
   const getOptions = () => {
     return(
+      <>
         <div id="footerOptions">
             {getQuestionOptions()}
             {getStageOption()}
             {props.roomData.QuestionNum >= 100 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
-            <button onClick={() => props.authLogout()}>Log out</button>
         </div>
+        <div id="footerManage">
+          <button onClick={() => setClicked(clicked === true ? false : true)}>Return</button>
+          <button onClick={() => props.authLogout()}>Log out</button>
+        </div>
+      </>
     );
   }
 
@@ -129,14 +135,14 @@ function RoomFooter(props) {
 
   if(props.isAdmin || props.auth){
     return (
-        <div id="roomFooter">
-          <div>
-              <button onClick={() => setClicked(clicked === true ? false : true)}>Manage</button>
-          </div>
+        <div id="roomFooter">          
           {clicked ? 
-          <div>
+          <div id="roomManageContainer">
               {props.auth ? getOptions() : getLogin()}
-          </div> : <> </>}
+          </div> : 
+          <div id="roomManageContainer">
+              <button onClick={() => setClicked(clicked === true ? false : true)}>Manage</button>
+          </div>}
         </div>
       );
   } else {

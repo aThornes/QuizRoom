@@ -1,0 +1,27 @@
+#quizz-music-player{
+    display:none;
+}
+
+#musicHeader{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 50px;
+    color: red;
+    filter: drop-shadow(0 0 10px white);
+    padding-bottom: 8vh;
+}
+
+#musicControls{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 5vh;
+}
+
+.musicIcon{
+    width:50px;
+    padding-left: 20px;
+    padding-right: 20px;
+}

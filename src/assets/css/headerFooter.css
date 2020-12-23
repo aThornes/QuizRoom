@@ -13,11 +13,36 @@
 
 #roomFooter{
     display: flex;
-    align-items: center;
     flex-direction: column;
     justify-content: center;
-    padding-top:5vh;
+    background: grey;    
+    margin-top: auto;
+}
+
+#roomManageContainer {    
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background: grey;    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: auto;
+}
+
+#footerOptions{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: grey;    
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     
+}
+
+#footerManage{
+    display: flex;
+    justify-content: center;
+    margin: auto;
 }
 
 #roomFooter button {
@@ -40,4 +65,23 @@
 #roomFooter button:hover {
     background-color: rgb(163, 161, 161);
     transition-duration:0.4s;
+}
+
+.footerText{
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+}
+
+@media (max-width: 568px) {
+
 }
