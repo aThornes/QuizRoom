@@ -7,12 +7,17 @@
 #roundScores{
     display: flex;
     flex-direction: column;
-    color: rgb(48, 184, 247);
+    justify-content: center;
+    align-items: center;
+    margin-right:auto;
+    margin-left:auto;
+    color: rgb(252, 247, 175);
+    width:80vw;
 }
 
 .scoreContainer{
     display: flex;
-    width:30vw;
+    width:55vw;
 }
 
 .scoreContainer div{

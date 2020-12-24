@@ -33,7 +33,7 @@ function Summary(props) {
 
     scoreObj.sort((a,b) => {
       return b.score - a.score;
-    })
+    });
 
     setUserScores(scoreObj);
   }, [props])

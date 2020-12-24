@@ -17,13 +17,13 @@
 }
 
 #setupListContiner #listTitle{
-    font-size: 50px;
+    font-size: 40px;
     color: rgb(45, 16, 124);
     padding-bottom:5vh;
 }
 
 #setupListContiner #list{
-    font-size: 30px;
+    font-size: 24px;
     color: rgb(209, 49, 37);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: rgb(55, 55, 55);

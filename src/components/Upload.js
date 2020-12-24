@@ -63,6 +63,7 @@ function Upload(props) {
           dataObjs.push([]);
           objCount++;
         } else {
+          if(dataObjs[2] && dataObjs[2].includes("Multiple")) console.log(dataLines[i]);
           dataObjs[objCount].push(dataLines[i]);       
         }
       }
@@ -85,7 +86,7 @@ function Upload(props) {
             idList.push(newID);
             
             rounds[newID] = {};
-            if(obj[0] === "Intro's"){
+            if(obj[0].includes("Intro's")){
               rounds[newID].type = "Music";
             } else
               rounds[newID].type = "Question";
@@ -96,6 +97,7 @@ function Upload(props) {
           }
 
           if(rounds[curID].type !== "Music" && obj[4] && obj[4].length > 0){
+            //console.log(obj);
             const c1 = (obj[4] && obj[4].length > 0) ? obj[4] : null;
             const c2 = (obj[5] &&obj[5].length > 0) ? obj[5] : null;
             const c3 = (obj[6] &&obj[6].length > 0) ? obj[6] : null;
@@ -113,7 +115,7 @@ function Upload(props) {
           } else 
 
           if(rounds[curID].type === "Music"){
-            rounds[curID][questionCounter] = {Song: obj[2], Answer: obj[3], startTime: obj[4], endTime: obj[5]};
+            rounds[curID][questionCounter] = {Song: obj[2], Answer: obj[3], startTime: Number(obj[4]), endTime: Number(obj[5])};
           }
           else
             rounds[curID][questionCounter] = {Question: obj[2], Answer: obj[3]};
@@ -127,6 +129,11 @@ function Upload(props) {
       props.overwriteQuestionList(rounds);
 
       setProcessed(true);
+    }
+
+    const updateUserInput = (val) => {
+      if(val.length <= 5)
+        setRoomCode(val.toUpperCase());
     }
 
     const getInput = () => {
@@ -163,7 +170,7 @@ function Upload(props) {
             <div>All done!</div>
             <div>
               <div>Add all to room?</div>
-              <input value={roomCode} onChange={(e) => setRoomCode(e.target.value)}></input>
+              <input value={roomCode} onChange={(e) => updateUserInput(e.target.value)}></input>
               <button onClick={() => setRoomQuestions()}>Confirm</button>
             </div>
             </>);

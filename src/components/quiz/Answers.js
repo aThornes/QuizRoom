@@ -105,13 +105,17 @@ function Answers(props) {
         }
     }
 
+    function isNumeric(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     const getAnswer = () => {
         const useChoice = props.questionData.Choices !== null && props.questionData.Choices !== undefined;
         switch(props.type.toLowerCase()){
             case "music":     
             case "picture":
             case "question":
-                if(useChoice)
+                if(useChoice && isNumeric(props.questionData.Answer))
                     return <span>{props.questionData.Choices[props.questionData.Answer]}</span>
                 else
                     return <span>{props.questionData.Answer}</span>
@@ -147,8 +151,6 @@ function Answers(props) {
 
     }, [props]);
    
-
-    
     return (
         <div id="answerSummary">
             <h2>Round Answers</h2>
@@ -158,8 +160,8 @@ function Answers(props) {
                 <div className="answerSummaryAnswer"><span>Correct answer: </span>{getAnswer()}</div>
             </div>
             <div id="answerSummaryButtons">
-                <span><button disabled={disabledInc} onClick={()=> submitResult(false)}>Incorrect</button></span>
                 <span><button disabled={disabledCor} onClick={()=> submitResult(true)}>Correct</button></span>
+                <span><button disabled={disabledInc} onClick={()=> submitResult(false)}>Incorrect</button></span>
             </div>
         </div>
     );

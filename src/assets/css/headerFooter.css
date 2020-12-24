@@ -259,9 +259,6 @@
 #modalStageButtons{
     display:flex;
     justify-content: space-between;
-    margin-left:auto;
-    margin-right:auto;
-    width:90%;
     height:10vh;
     padding-top:10px;
 }

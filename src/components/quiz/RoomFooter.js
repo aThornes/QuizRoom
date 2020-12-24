@@ -146,7 +146,10 @@ function RoomFooter(props) {
               </div>
               <div>
                 <button>Go</button>
-              </div>               
+              </div>      
+              <div>
+                <button onClick={() => setClicked(false)}>Back</button>
+              </div>              
             </form>
             {showErr ? <div>*Invalid credentials</div> : <></>}
         </div>   

@@ -29,6 +29,10 @@ function Finale(props) {
       scoreObj.push({name: props.roomData.JoinedUsers[key].name, score: scoreCount});
     });
 
+    scoreObj.sort((a,b) => {
+      return b.score - a.score;
+    });
+
     setUserScores(scoreObj);
   }, [props])
 

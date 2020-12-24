@@ -10,7 +10,7 @@ import repeatImage from "../../assets/repeat.png";
 function Music(props) {  
 
   const [playerVolume] = useState(0.8);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [hitEnd, setHitEnd] = useState(false);
 
