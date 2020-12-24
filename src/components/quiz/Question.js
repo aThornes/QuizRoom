@@ -183,7 +183,7 @@ function Question(props) {
   } else if(type === "intro"){
     return <Intro roundNum={roundNum} headerText={headerText}/>  
   } else if(type==="summary"){
-    return <Summary questionNum={questionNum} roundNum={roundNum} roomData={props.roomData} />  
+    return <Summary roundNum={roundNum} roomData={props.roomData} />  
   }else {
     try{
       return (<> {getQuestion()} {getChoice()}</>);

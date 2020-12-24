@@ -15,6 +15,7 @@ import "../assets/css/headerFooter.css";
 import "../assets/css/answer.css"
 import "../assets/css/question.css"
 import "../assets/css/picture.css"
+import "../assets/css/summary.css"
 
 function Room(props) {  
   
@@ -105,7 +106,7 @@ function Room(props) {
       case 1:
         return ( <> {getHeader()}  <Question roomData={props.roomData} updateRoomData={updateRoomData} questionData={props.questionData} users={props.roomData.JoinedUsers} userData={userData}/> {getFooter()}</> );
       case 2:
-        return ( <> {getHeader()}  <Finale users={props.roomData.JoinedUsers}/> {getFooter()}</> );
+        return ( <> {getHeader()}  <Finale roomData={props.roomData}/> {getFooter()}</> );
       default:
         return <div>Invalid stage</div>
     }    

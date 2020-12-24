@@ -10,11 +10,14 @@
     overflow: hidden;
     display:flex;
     flex-direction: column;
+    text-align: center;
+    touch-action: none;
 }
 
 .absolute{
     position: absolute;
     overflow: hidden;
+    top:0px;
     width:100vw;
     height:100vh;
     pointer-events: none;
@@ -49,7 +52,7 @@
 #roundHeader {
     color: red;
     font-size: 60px;
-    padding-bottom: 3vh;
+    padding-top: 3vh;
     padding-bottom:10vh;
 } 
 

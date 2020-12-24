@@ -17,7 +17,7 @@ function RoomHeader(props) {
     let roundNum = props.roomData.RoundNum;
     let questionNum = props.roomData.QuestionNum;
 
-    Object.keys(props.roomData.JoinedUsers).forEach(p => {
+    Object.keys(props.roomData.JoinedUsers).forEach((p, idx) => {
       const user = props.roomData.JoinedUsers[p];
       if(user.answers){
         
@@ -37,20 +37,17 @@ function RoomHeader(props) {
 
   const getCompleteIcons = () => {
     let progressList = [];
-    let userIndex = -1; //todo
-
-    console.log(totalPlayers, readyPlayers);
 
     for(let i = 0; i < totalPlayers; i++){
       if(readyPlayers >= (i+1)) progressList.push(1);
       else progressList.push(0);
     }
-
+    
     return progressList.map((v, idx) => {
       if(v === 1)
-        return <img className={`progressIcon progressReady ${idx=userIndex ? "highlighted" : ""}`} key={idx} src={userCompletedImage} alt="userReady" />
+        return <img className={`progressIcon progressReady`} key={idx} src={userCompletedImage} alt="userReady" />
       else
-        return <img className={`progressIcon progressWaiting ${idx=userIndex ? "highlighted" : ""}`}  key={idx} src={userCompletedImage} alt="userReady" />
+        return <img className={`progressIcon progressWaiting`}  key={idx} src={userCompletedImage} alt="userReady" />
     });
   }
  

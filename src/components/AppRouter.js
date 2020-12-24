@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import {Router, Route, Switch, Redirect} from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
-import Create from "./Create";
+import Upload from "./Upload";
+//import Create from "./Create";
 import Join from "./Join";
 import Room from "./Room";
 import NotFound from "./NotFound";
@@ -19,6 +20,8 @@ function AppRouter(props){
     const [roomData, setRoomData] = useState(null);
     const [questionData, setQuestionData] = useState(null);
     const [authenticated, setAuthenticated] = useState(null);
+
+    const [roomList, setRoomList] = useState(null);
 
     const history = createBrowserHistory();
 
@@ -42,6 +45,19 @@ function AppRouter(props){
         });
     }
 
+    const getRoomList = () => {
+        let firebaseData =  firebase.database().ref('/');
+
+        firebaseData.on('value', (snapshot) =>{
+            const foundData = snapshot.val();
+
+            let rooms = foundData.Rooms;
+
+            if(rooms)
+                setRoomList(Object.keys(rooms));            
+        });
+    }
+
     const getQuestionData = async() => {
        /* Read data from database */
 
@@ -58,10 +74,21 @@ function AppRouter(props){
        }); 
     }
 
+    
+    const overwriteQuestionList = async(newQuestions) => {
+        let questionData = firebase.database().ref("/QuestionList/");
+
+        try{
+            return await questionData.set(newQuestions);
+        } catch {
+            return false;
+        }
+    }
+
     const updateRoomData = (code, path, newData) => {
         let roomData = firebase.database().ref("/Rooms/" + code + "/" + path);
-
-        roomData.set(newData);
+        
+        roomData.set(newData);       
     }
 
     const redirectUser = () => {
@@ -80,7 +107,7 @@ function AppRouter(props){
       }
 
     const userLogin = async(username, password) => {
-        firebase.auth()
+        return await firebase.auth()
         .signInWithEmailAndPassword(username, password)
         .then(() => {setAuthenticated(true); return true;})
         .catch(() => {setAuthenticated(false); return false;});
@@ -97,13 +124,17 @@ function AppRouter(props){
             <Router history={history}>
                 <Switch>
                     <Route exact path = "/">{redirectUser}</Route>
-                    <Route path = "/create"><Create 
+                    <Route path = "/create">
+                        {/* <Create 
                             auth={authenticated}
                             getQuestionData={getQuestionData}
                             questionData={questionData}
                             authUpdate={authStateChanged}
                             authLogin={userLogin}
-                            authLogout={logoutUser}/></Route>
+                            authLogout={logoutUser}/> */}
+                            <div>Not yet available</div>
+                    </Route>
+                            
                     <Route path = "/join" history={history}> <Join history={history}/></Route> 
                     <Route path = "/room" history={history}> 
                         <Room 
@@ -118,6 +149,17 @@ function AppRouter(props){
                             authLogout={logoutUser}
                             getQuestionData={getQuestionData}
                             questionData={questionData}/>
+                    </Route>
+                    <Route path="/upload">
+                        <Upload 
+                            auth={authenticated}
+                            authUpdate={authStateChanged}
+                            authLogin={userLogin}
+                            authLogout={logoutUser}
+                            getRoomList={getRoomList}
+                            roomList={roomList}
+                            updateRoomData={updateRoomData}
+                            overwriteQuestionList={overwriteQuestionList}/>
                     </Route>
                     <Route path="/"> <NotFound history={history}/> </Route>
                 </Switch>

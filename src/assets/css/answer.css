@@ -57,6 +57,11 @@
     width:100%;
 }
 
+.choiceButton-selected{
+    background-color: rgb(141, 233, 136) !important;
+    cursor: auto !important;
+}
+
 #answerSummary{
     display: flex;
     align-items: center;
@@ -117,6 +122,7 @@
 }
 
 #answerSummary button{
+    
     width:80%;
     background-color: rgb(240, 235, 235);
     border: none;
@@ -135,7 +141,7 @@
 }
 
 #answerSummary button:disabled{    
-    background-color: rgba(240, 235, 235, 0.597);
+    background-color: rgb(135, 202, 118);
     font-size: 12px;
     
     cursor:auto;

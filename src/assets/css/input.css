@@ -1,0 +1,41 @@
+
+#uploadContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left:auto;
+    margin-right: auto;
+    width:80vw;
+}
+
+#uploadText[type=text]{
+    font-size: 20px;
+    font-family:'Courier New', Courier, monospace;
+    padding-bottom: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+    
+}
+#uploadDBData{
+    width:100%;
+    height:80vh;
+}
+#uploadSubmit{
+    padding-top:10px
+}
+#uploadSubmit button{
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}

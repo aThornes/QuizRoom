@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
+import configImage from "../../assets/config.png"
+
 function RoomFooter(props) {  
 
   let [clicked, setClicked] = useState(false);
@@ -41,23 +43,29 @@ function RoomFooter(props) {
 
   const getStageOption = () => {
     if(props.roomData.Stage === 0){
-      return <button onClick={() => props.updateRoomData("Stage", 1)}>Start quiz!</button>
+      return <><div id="modalSpaceDown"></div><div><button onClick={() => props.updateRoomData("Stage", 1)}>Start quiz!</button></div></>
     } else if(props.roomData.Stage === 1){
       return (<>
-        <button onClick={() => props.updateRoomData("Stage", 0)}>Back to setup</button>
-        <button onClick={() => props.updateRoomData("Stage", 2)}>End quiz</button>
+        <div id="modalStageButtons">
+          <button onClick={() => props.updateRoomData("Stage", 0)}>Setup</button>
+          <button onClick={() => props.updateRoomData("Stage", 2)}>Finale</button>
+        </div>
       </>)
     } else {
       return (<>
-        <button onClick={() => props.updateRoomData("Stage", 0)}>Back to setup</button>
-        <button onClick={() => props.updateRoomData("Stage", 1)}>Back to questions</button>
+        <div id="modalSpaceDown"></div>
+        <div id="modalStageButtons">
+          <button onClick={() => props.updateRoomData("Stage", 0)}>Setup</button>
+          <button onClick={() => props.updateRoomData("Stage", 1)}>Questions</button>
+        </div>
       </>)
     }
   }
 
   const changeRound = (newVal) => {
     props.updateRoomData("RoundNum", newVal);
-    props.updateRoomData("QuestionNum", -1)
+    if(props.roomData.QuestionNum !== 99)
+      props.updateRoomData("QuestionNum", -1)
   }
 
   const getQuestionOptions = () => {
@@ -77,55 +85,68 @@ function RoomFooter(props) {
 
       if((questionNum >= 0 && questionNum < 100) || questionNum > 100) prevQues = true;
 
-      return(<>
-        <button className="footerArrow" disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>&lt;</button>
-        <div className="footerText">Round</div>
-        <button className="footerArrow" disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&gt;</button>
-        <button className="footerArrow" disabled={!prevQues} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&lt;</button>
-        <div className="footerText">Question</div>
-        <button className="footerArrow" disabled={!nextQues} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&gt;</button>
+      return(<div id="modalRoundAdmin">
+        <div className="modalRoundSegment">
+          <div><button className="modalPointerButton" disabled={!prevRound} onClick={() => changeRound(roundNum-1)}>&lt;</button></div>
+          <div>Round</div>
+          <div><button className="modalPointerButton"  disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&gt;</button></div>
+        </div>
+        <div className="modalRoundSegment">
+          <button className="modalPointerButton"  disabled={!prevQues || props.roomData.QuestionNum === 99} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&lt;</button>
+          <div>Question</div>
+          <button className="modalPointerButton"  disabled={!nextQues || props.roomData.QuestionNum === 99} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&gt;</button>
+        </div>
+        
+       
 
-        { questionNum < 99 ? <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
+        <div>{ questionNum < 99 ? <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
         (questionNum >= 100) ? 
         <button onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary</button> :
         <button onClick={() => props.updateRoomData("QuestionNum", upperQuestionBound)}>Questions</button>
-        }
-      </>);      
+        }</div>
+      </div>);      
 
     } else return (<> </>);
   }
   
   const getOptions = () => {
     return(
-      <>
-        <div id="footerOptions">
+      <div id="modalOptions">
+        <div id="modalOptionChoice">
             {getQuestionOptions()}
             {getStageOption()}
             {props.roomData.QuestionNum >= 100 ? <div>{readyPlayers}/{totalPlayers}</div> : <> </>}
         </div>
-        <div id="footerManage">
-          <button onClick={() => setClicked(clicked === true ? false : true)}>Return</button>
-          <button onClick={() => props.authLogout()}>Log out</button>
+        <div id="modalFooter">
+          <button className="modalButton" onClick={() => setClicked(clicked === true ? false : true)}>Return</button>
+          <button className="modalButton" onClick={() => props.authLogout()}>Log out</button>
         </div>
-      </>
+      </div>
     );
   }
 
-  const logUser = (e) => {
+  const logUser = async(e) => {
     e.preventDefault();
 
-    props.authLogin(user,pass);
+    const success = await props.authLogin(user,pass);
 
-    setShowErr(true); //Can just set error to show, if login works then user will not see login option anymore anyway
+    if(!success)
+      setShowErr(true);
   }
 
   const getLogin = () => {
     return(
         <div>
-            <form onSubmit={(e) => logUser(e)}>
+            <form id="adminLogin" onSubmit={(e) => logUser(e)}>
+              <div>
                 <input type="text" name="username" value={user} onChange={(e) => {setUser(e.target.value)}} />
+              </div>
+              <div>
                 <input type="password" name="password" value={pass} onChange={(e) => {setPass(e.target.value)}} />
+              </div>
+              <div>
                 <button>Go</button>
+              </div>               
             </form>
             {showErr ? <div>*Invalid credentials</div> : <></>}
         </div>   
@@ -135,13 +156,17 @@ function RoomFooter(props) {
 
   if(props.isAdmin || props.auth){
     return (
-        <div id="roomFooter">          
+        <div>
           {clicked ? 
-          <div id="roomManageContainer">
-              {props.auth ? getOptions() : getLogin()}
-          </div> : 
-          <div id="roomManageContainer">
-              <button onClick={() => setClicked(clicked === true ? false : true)}>Manage</button>
+          <>
+          <div id="screenDim"></div>
+          <div id="adminModal">
+            <div id="modalHeader">Admin Controls</div>
+            <div id="modalContent">{props.auth ? getOptions() : getLogin()}</div>              
+          </div>
+          </> : 
+          <div>
+              <img id="adminOptionImage" src={configImage} alt="configuration" onClick={() => setClicked(clicked === true ? false : true)} />
           </div>}
         </div>
       );

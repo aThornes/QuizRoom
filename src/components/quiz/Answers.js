@@ -101,13 +101,15 @@ function Answers(props) {
     }
 
     const getAnswer = () => {
+        const useChoice = props.questionData.Choices !== null && props.questionData.Choices !== undefined;
         switch(props.type.toLowerCase()){
             case "music":     
             case "picture":
             case "question":
-                return <span>{props.questionData.Answer}</span>
-            case "choice": //todo: show actual answer not choice number
-                return <span>{props.questionData.Choices[props.questionData.Answer]}</span>
+                if(useChoice)
+                    return <span>{props.questionData.Choices[props.questionData.Answer]}</span>
+                else
+                    return <span>{props.questionData.Answer}</span>
             default:
                 return <span>err</span>
         }
@@ -122,16 +124,25 @@ function Answers(props) {
         const curCorrect = props.getAnswerCorrect();
 
         if(props.allowInput && (curAns !== undefined && curAns !== null)){
-           setUserAnswer(curAns);
+            const useChoice = props.questionData.Choices !== null && props.questionData.Choices !== undefined;
+
+            if(useChoice)
+                setUserAnswer(props.questionData.Choices[curAns]);
+            else
+                setUserAnswer(curAns);
         }
     
         if(curCorrect !== undefined && curCorrect !== null){
             setDisabledCor(curCorrect === true);
             setDisabledInc(curCorrect === false);
+        }else{
+            setDisabledCor(false);
+            setDisabledInc(false);
         }
 
     }, [props]);
    
+
     
     return (
         <div id="answerSummary">

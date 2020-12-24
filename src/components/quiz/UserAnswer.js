@@ -48,7 +48,7 @@ function UserAnswer(props) {
   const getChoiceOptions = () => {
     return (<>
       {props.choices.map((choice, idx) => {
-        return <div className="buttonContainer"key={idx}><button className={`choiceButton ${answer === idx ? "selected" : ""}`} disabled={!props.allowInput} onClick={() => submitChoiceAnswer(idx)}>{choice}</button></div>
+        return <div className="buttonContainer"key={idx}><button className={`choiceButton-${answer === idx ? "selected" : ""}`} disabled={!props.allowInput || answer === idx} onClick={() => submitChoiceAnswer(idx)}>{choice}</button></div>
       })}
     </>);
   }

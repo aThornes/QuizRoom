@@ -27,77 +27,6 @@
     color: rgb(247, 247, 247);
 }
 
-#roomFooter{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: grey;    
-    margin-top: auto;
-}
-
-#roomManageContainer {    
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    background: grey;    
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin: auto;
-}
-
-#footerOptions{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    background: grey;    
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    
-}
-
-#footerManage{
-    display: flex;
-    justify-content: center;
-    margin: auto;
-}
-
-#roomFooter button {
-    background-color: rgb(240, 235, 235);
-    border: none;
-    color: rgb(19, 19, 19);
-    text-transform: uppercase;
-    display: inline-block;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 100;
-    text-decoration: none;  
-    user-select: none;
-    letter-spacing: 1.5px;
-    padding: 20px 10px; 
-    
-    cursor: pointer;
-}
-
-#roomFooter button:hover {
-    background-color: rgb(163, 161, 161);
-    transition-duration:0.4s;
-}
-
-.footerText{
-    background-color: rgb(240, 235, 235);
-    border: none;
-    color: rgb(19, 19, 19);
-    text-transform: uppercase;
-    display: inline-block;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 100;
-    text-decoration: none;  
-    user-select: none;
-    letter-spacing: 1.5px;
-    padding: 20px 10px; 
-}
-
 #quizStarted{
     display:flex;
     margin:auto;
@@ -106,7 +35,6 @@
     flex-direction: column;
     filter: drop-shadow(0 0 20px white);
 }
-
 
 #quizStarted div{
     font-size: 50px;
@@ -144,8 +72,8 @@
     position: relative;
     width: 80px;
     height: 80px;
-  }
-  .lds-hourglass:after {
+}
+.lds-hourglass:after {
     filter: none;
     content: " ";
     display: block;
@@ -157,24 +85,250 @@
     border: 32px solid rgb(35, 7, 112);
     border-color: rgb(35, 7, 112) transparent rgb(35, 7, 112) transparent;
     animation: lds-hourglass 1.4s infinite;
-  }
-  @keyframes lds-hourglass {
+}
+@keyframes lds-hourglass {
     0% {
-      transform: rotate(0);
-      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
     }
     50% {
-      transform: rotate(900deg);
-      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     }
     100% {
-      transform: rotate(1800deg);
+        transform: rotate(1800deg);
     }
-  }
+}
+
+#screenDim{
+    position: absolute;
+    top:0px;
+    left:0px;
+    background-color: rgba(48, 28, 45, 0.398);
+    width:100vw;
+    height:100vh;
+}
+
+#modalSpaceDown{
+    height:40vh;
+}
   
+#adminOptionImage{
+    position: absolute;
+    bottom: 20px;
+    left:20px;
+    width:40px;
+}
+
+#adminModal{
+    background: rgba(59, 65, 87, 0.748);
+    border-radius: 10px;
+    position: absolute;
+    width:80vw;
+    height:80vh;
+    top:10vh;
+    left:10vw;
+}
+
+#modalHeader{
+    padding-top: 2vh;
+    color: white;
+    font-size: 40px;
+}
+
+#modalContent{
+    height:80%;
+    padding-top: 5%;
+    color: white;
+}
+
+#modalOptions{
+    height:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modalOptionChoice{
+    flex-grow: 1;
+}
+
+#modalFooter{
+    display: flex;
+    width:80%;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.modalButton {    
+    min-width:94px;
+    max-width:300px;
+    width:40%;
+    height:60px;
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+.modalButton:hover {    
+    
+    background-color: rgb(141, 141, 141);
+    transition-duration: 0.2s;
+}
+
+#adminLogin{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right:auto;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#adminLogin div{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#adminLogin div input{
+    min-width:160px;
+    max-width: 500px;
+    font-size: 20px;
+    width:25vw;
+    text-align: center;
+}
+
+#adminLogin div button{
+    min-width:150px;
+    width:10vw;
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+#modalRoundAdmin{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.modalRoundSegment{
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: auto;
+    margin-right:auto;
+    padding-top:2vh;
+    padding-bottom:3vh;
+}
+
+.modalRoundSegment div{
+    padding-left:20px;
+    padding-right: 20px;
+}
+
+#modalStageButtons{
+    display:flex;
+    justify-content: space-between;
+    margin-left:auto;
+    margin-right:auto;
+    width:90%;
+    height:10vh;
+    padding-top:10px;
+}
+
+#modalOptionChoice button{
+    min-width:150px;
+    width:10vw;
+    min-height: 100%;
+    height:100%;
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+#modalOptionChoice button:disabled{
+    background-color: rgba(240, 235, 235, 0.494);
+    cursor: auto;
+    
+}
+
+#modalOptionChoice button:enabled:hover{
+    background-color: rgb(141, 140, 140);
+    transition-duration: 0.2s;
+}
+
+.modalPointerButton{
+    min-width:30px !important; 
+    width:0.5vw !important;
+}
 
 @media (max-width: 568px) {
     #roomHeader{
         width: 35vw;
     }
+
+    #adminOptionImage{
+        position: absolute;
+        bottom: 10px;
+        left:10px;
+        width:30px;
+    }
+
+    #modalHeader{
+        font-size: 30px;
+    }
+
+    #modalOptionChoice button{
+        min-width:110px;
+    }
+    
+}
+
+
+@media (max-width: 350px) {
+    #modalHeader{ 
+        font-size: 25px;
+    }
+    
 }
