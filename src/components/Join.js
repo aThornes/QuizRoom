@@ -18,6 +18,7 @@ function Join(props) {
     e.preventDefault();
 
     props.history.push(`/room/${roomCode}`);
+    window.location.reload();
   }
 
   const updateRoomCode = (e) => {

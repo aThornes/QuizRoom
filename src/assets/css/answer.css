@@ -56,3 +56,140 @@
 #userOptions .buttonContainer button{
     width:100%;
 }
+
+#answerSummary{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#answerSummary h2{
+    color:rgb(55, 20, 124);
+}
+
+#answerSummary #answerSummaryQuestion{
+    padding-top:2vh;
+    padding-bottom:2vh;
+}
+
+#answerSummaryContainer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 5vh;
+}
+
+#answerSummary .answerSummaryAnswer{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 2vh;
+    padding-bottom: 1vh;
+    text-align: center;
+}
+
+#answerSummary .answerSummaryAnswer span:nth-child(1){
+    font-size: 20px;
+    color:rgb(202, 56, 142);
+}
+
+#answerSummary .answerSummaryAnswer span:nth-child(2){
+    font-size: 25px;
+    color:rgb(139, 114, 191);
+}
+
+#answerSummaryButtons{
+    display: flex;
+    align-items: center;
+}
+
+#answerSummaryButtons span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    width: 30vh;
+}
+
+#answerSummary button{
+    width:80%;
+    background-color: rgb(240, 235, 235);
+    border: none;
+    color: rgb(19, 19, 19);
+    text-transform: uppercase;
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    text-decoration: none;  
+    user-select: none;
+    letter-spacing: 1.5px;
+    padding: 20px 10px; 
+    
+    cursor: pointer;
+}
+
+#answerSummary button:disabled{    
+    background-color: rgba(240, 235, 235, 0.597);
+    font-size: 12px;
+    
+    cursor:auto;
+}
+
+#answerSummary button:hover:enabled{
+    background-color: rgb(163, 161, 161);
+    transition-duration:0.4s;
+}
+
+
+
+@media (max-width: 910px) {
+    #answerSummaryButtons{
+        flex-direction: column;
+        justify-content: space-between;
+        width:100vw;        
+    }
+    
+    #answerSummaryButtons span{
+        width:60vw;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+    }    
+}
+
+@media (max-height: 668px) {
+        
+    #answerSummary h2{
+        color:rgb(55, 20, 124);
+        font-size: 20px;
+    }
+    
+    #answerSummary #answerSummaryQuestion{
+        padding-top:1vh;
+    }
+    
+    #answerSummaryContainer{
+        padding-bottom: 2vh;
+    }
+    
+    #answerSummary .answerSummaryAnswer{
+        padding-top: 0vh;
+    }
+    
+    #answerSummary .answerSummaryAnswer span:nth-child(1){
+        font-size: 17px;
+    }
+    
+    #answerSummary .answerSummaryAnswer span:nth-child(2){
+        font-size: 22px;
+    }
+        
+    #answerSummaryButtons span{
+        width: 40vh;
+    }
+}

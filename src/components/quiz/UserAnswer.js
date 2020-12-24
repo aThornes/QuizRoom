@@ -29,7 +29,11 @@ function UserAnswer(props) {
   }
 
   const submitAnswer = () => {
-    props.saveAnswer(answer);
+    if(!props.allowInput){
+      props.saveAnswer("Completed");
+    } else {
+      props.saveAnswer(answer);
+    }
     setSubmitted(true);
   }
 
@@ -37,7 +41,7 @@ function UserAnswer(props) {
     if(!submitted){
       return <button onClick={() => {submitAnswer()}}>I'm done!</button>;
     } else {
-      return <button onClick={() => {setSubmitted(false)}}>Go back!</button>;
+      return <button onClick={() => {setSubmitted(false)}}>Change Answer</button>;
     }
   }
 
@@ -50,6 +54,7 @@ function UserAnswer(props) {
   }
 
   const getInputField = () => {
+    console.log(props.allowInput)
     if(!submitted && props.allowInput) return <input value={answer} onChange={(e) => {setAnswer(e.target.value)}}></input> ;
     else return <> </>;
   }

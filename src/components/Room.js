@@ -213,7 +213,6 @@ function Room(props) {
               if(props.roomData.JoinedUsers[props.roomData.Admin].key === foundKey) setUserAdmin(true);
               else setUserAdmin(false);
             }
-
             break;
           }
         }
@@ -245,7 +244,7 @@ function Room(props) {
   else{
     return (    
       <div id="quizStarted">
-        <div class="lds-hourglass"></div>
+        <div className="lds-hourglass"></div>
       </div>
     );
   }

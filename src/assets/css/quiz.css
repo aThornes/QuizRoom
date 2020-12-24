@@ -39,7 +39,8 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin: auto;
+    margin-left: auto;
+    margin-right:auto;
     padding-top:10vh;
     
     filter: drop-shadow(0 0 10px white);

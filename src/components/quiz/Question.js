@@ -18,7 +18,7 @@ function Question(props) {
   const [questionSetID, setQuestionSetID] = useState(null);
   const [type, setType] = useState(null);
   const [headerText, setHeaderText] = useState(null);
-  const [allowInput/*, setAllowInput*/] = useState(true);
+  const [allowInput, setAllowInput] = useState(true);
   const [checkAnswer, setCheckAnswer] = useState(true);
 
   useEffect(() => {
@@ -48,15 +48,20 @@ function Question(props) {
     else if(qNum === 99){
       setType("summary");
     }
+
+    const userKey = getUserKey();
+    if(userKey && userKey !== -1)
+      setAllowInput(props.roomData.JoinedUsers[userKey].input);
     
 // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [props.roomData, props.questionData]);
+  }, [props.roomData, props.questionData, props.userData]);
 
 
   const getUserKey = () => {
     let userKey = -1;
     let objKeys = Object.keys(props.roomData.JoinedUsers);
     for(let i = 0; i < objKeys.length; i++){
+      if(!props.roomData.JoinedUsers[objKeys[i]] || !props.userData) continue;
       if(props.roomData.JoinedUsers[objKeys[i]].name === props.userData.name) {userKey = objKeys[i]; break;} 
     }
     return userKey;
