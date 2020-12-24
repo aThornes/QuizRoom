@@ -27,24 +27,24 @@ function Music(props) {
   }, []);
 
   const musicProgress = (e) => {
-    if(e.playedSeconds > props.endTime){
+    if(e.playedSeconds > Number(props.endTime)){
       setPlaying(false);
       setHitEnd(true);
-    } else if (e.playedSeconds < props.statTime){
-      musicPlayer.current.seekTo(props.startTime, 'seconds');
+    } else if (e.playedSeconds < Number(props.startTime)){
+      musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     }
   }
 
   const setPlay = (play) => {
     if(hitEnd){
-      musicPlayer.current.seekTo(props.startTime, 'seconds');
+      musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     }
 
     setPlaying(play);
   }
 
   const replayTrack = () => {
-    musicPlayer.current.seekTo(props.startTime, 'seconds');
+    musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     setPlay(true);
   }
   

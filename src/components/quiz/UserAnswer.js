@@ -54,7 +54,6 @@ function UserAnswer(props) {
   }
 
   const getInputField = () => {
-    console.log(props.allowInput)
     if(!submitted && props.allowInput) return <input value={answer} onChange={(e) => {setAnswer(e.target.value)}}></input> ;
     else return <> </>;
   }

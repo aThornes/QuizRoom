@@ -16,7 +16,8 @@ function Answers(props) {
     const [disabledInc, setDisabledInc] = useState(false);
 
     const musicPlayer = useRef(null);
-    const musicController = useRef(null);
+    const musicControllerRef = useRef(null);
+    const musicProgressRef = useRef(null);
 
     const [playerVolume] = useState(0.8);
 
@@ -37,6 +38,7 @@ function Answers(props) {
     }
 
     const setPlay = (play) => {
+        console.log("hit end", hitEnd);
         if(hitEnd){
             musicPlayer.current.seekTo(props.questionData.startTime, 'seconds');
         }
@@ -53,10 +55,13 @@ function Answers(props) {
 
     const handlePlayerControllerClick = (e) => {
         setHitEnd(false);
-        let boundary = musicController.current.getBoundingClientRect();
+        let boundary1 = musicControllerRef.current.getBoundingClientRect();
+        let boundary2 = musicProgressRef.current.getBoundingClientRect();
 
-        let xStart = boundary.x;
-        let newProgressPercentage = ((e.pageX - xStart) / boundary.width);
+        let xStart = boundary2.x;
+        let newProgressPercentage = ((e.pageX - xStart) / boundary1.width);
+
+        console.log(newProgressPercentage);
 
         setProgress(newProgressPercentage * 100);
         musicPlayer.current.seekTo(newProgressPercentage, 'fraction');
@@ -79,9 +84,9 @@ function Answers(props) {
                         <img src={repeatImage} alt="musicReplay" className="musicIcon" onClick={() => replayTrack()} />
                         <img src={playAll ? padlockUnlocked : padlockLocked} alt={playAll ?  "play snippet" : "play all"} className="musicIcon" onClick={() => setPlayAll(playAll ? false : true)}/>
                     </div>
-                    {playAll ? <div ref={musicController}className="musicPlayer" onClick={(e) => handlePlayerControllerClick(e)}>
+                    {playAll ? <div ref={musicControllerRef} onClick={(e) => handlePlayerControllerClick(e)}>
                         <div className="musicPlayerProgress">
-                            <div className="musicPlayerFill" style={_style}></div>
+                            <div ref={musicProgressRef} className="musicPlayerFill" style={_style}></div>
                         </div>    
                     </div> : <></>}
                     <ReactPlayer ref={musicPlayer} id="quizz-music-player"
