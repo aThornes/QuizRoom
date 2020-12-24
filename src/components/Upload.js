@@ -20,6 +20,7 @@ function Upload(props) {
     useEffect(() => {
       props.authUpdate();
       props.getRoomList();
+      // eslint-disable-next-line react-hooks/exhaustive-deps 
     }, []);
 
     const logUser = async(e) => {
