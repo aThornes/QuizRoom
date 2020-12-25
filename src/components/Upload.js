@@ -99,24 +99,6 @@ function Upload(props) {
             curID = newID;
           }
 
-          /* Add round data to object */
-          if(obj[5] && obj[5].length > 0){
-            const c1 = (obj[5] &&obj[5].length > 0) ? obj[5] : null;
-            const c2 = (obj[6] &&obj[6].length > 0) ? obj[6] : null;
-            const c3 = (obj[7] &&obj[7].length > 0) ? obj[7] : null;
-            const c4 = (obj[8] && obj[8].length > 0) ? obj[8] : null;
-
-            let num = -1;
-            if(obj[4] === c1) num = 0;
-            else if(obj[4] === c2) num = 1;
-            else if(obj[4] === c3) num = 2;
-            else if(obj[4] === c4) num = 3;
-
-            let answer = num >= 0 ? num : obj[3];
-
-            rounds[curID][questionCounter] = {Question: obj[2], Answer: answer, Choices: [c1, c2, c3, c4]};
-          }
-          
           switch(rounds[curID].type){
             case "Music":
               rounds[curID][questionCounter] = {Song: obj[3], Answer: obj[4], startTime: Number(obj[9]), endTime: Number(obj[10])};
@@ -130,12 +112,33 @@ function Upload(props) {
               break;
           }
 
+          /* Add round data to object */
+          if(obj[5] && obj[5].length > 0){
+            const c1 = (obj[5] &&obj[5].length > 0) ? obj[5] : null;
+            const c2 = (obj[6] &&obj[6].length > 0) ? obj[6] : null;
+            const c3 = (obj[7] &&obj[7].length > 0) ? obj[7] : null;
+            const c4 = (obj[8] && obj[8].length > 0) ? obj[8] : null;
+
+            let num = -1;
+            if(obj[4] === c1) num = 0;
+            else if(obj[4] === c2) num = 1;
+            else if(obj[4] === c3) num = 2;
+            else if(obj[4] === c4) num = 3;
+
+            let answer = num >= 0 ? num : obj[4];
+
+            rounds[curID][questionCounter].Answer = answer;
+            rounds[curID][questionCounter].Choices = [c1, c2, c3, c4];
+          }          
+
           questionCounter++;
          
         }
-      });     
-
+      });   
+      
       setQuestionIDs(idList);
+
+      console.log(rounds);
 
       props.overwriteQuestionList(rounds);
 
