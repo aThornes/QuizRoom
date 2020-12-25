@@ -32,9 +32,9 @@ function Join(props) {
         return <div className="snow" key={idx}/>
       })}
       <div id="roomFlex">
-      <div className="joinText" id="joinText1"><span>NAN G</span><span id="textSmall"> s</span></div>
+      <div className="joinText" id="joinText1"><span>The</span><span id="textSmall"> s</span></div>
       <div className="joinText" id="joinText2">Big</div>
-      <div className="joinText" id="joinText3">Birthday Quiz</div>
+      <div className="joinText" id="joinText3">Christmas Quiz</div>
       <div className="joinText" id="joinTextRoom">Room Code</div>
 
           {/* <img id="joinText1" src={text1} alt="Nan G's"/>

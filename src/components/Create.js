@@ -72,24 +72,32 @@ function Create(props) {
     // 
     return (
     <div>
-      Available
       <div>
-        <select name="availableQuestionSets" size={Object.keys(props.questionData).length} value={selected} onChange={(e) => setSelected(e.target.value)}>
-          {Object.keys(props.questionData).map((key, i) => {
-            return <option key={i} value={key}>{key} ({props.questionData[key].type})</option>
-          })}
-        </select>
+        Room code
+        <input></input>
       </div>
-      <button onClick={() => addList(selected) }>+</button>
-      <button onClick={() => delList(cSelected) }>-</button>
-      Selected
       <div>
-      <select name="selectedQuestionSets" size={(Object.keys(choiceList).length >=2) ? Object.keys(choiceList).length : 2} value={cSelected} onChange={(e) => setCSelected(e.target.value)}>
-          {choiceList.map((key, i) => {
-            return <option key={i} value={key}>{key} ({props.questionData[key].type})</option>
-          })}
-        </select>
+        Available
+        <div>
+          <select name="availableQuestionSets" size={Object.keys(props.questionData).length} value={selected} onChange={(e) => setSelected(e.target.value)}>
+            {Object.keys(props.questionData).map((key, i) => {
+              return <option key={i} value={key}>{key} ({props.questionData[key].type})</option>
+            })}
+          </select>
+        </div>
+        <button onClick={() => addList(selected) }>+</button>
+        <button onClick={() => delList(cSelected) }>-</button>
+        Selected
+        <div>
+        <select name="selectedQuestionSets" size={(Object.keys(choiceList).length >=2) ? Object.keys(choiceList).length : 2} value={cSelected} onChange={(e) => setCSelected(e.target.value)}>
+            {choiceList.map((key, i) => {
+              return <option key={i} value={key}>{key} ({props.questionData[key].type})</option>
+            })}
+          </select>
+        </div>
       </div>
+     
+      
       <button>Create</button>
     </div>
     );

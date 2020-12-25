@@ -17,7 +17,7 @@ function Summary(props) {
     playerKeys.forEach(key => {
       const playerObj = props.roomData.JoinedUsers[key];
       let scoreCount = 0;
-      if(playerObj.answers){
+      if(playerObj.answers && playerObj.hidden !== true){
         const answerKeys = Object.keys(playerObj.answers);
         answerKeys.forEach(aKey => {
           const ansObj = playerObj.answers[aKey];
@@ -25,8 +25,8 @@ function Summary(props) {
             scoreCount++;
           }
         });
+        scoreObj.push({name: props.roomData.JoinedUsers[key].name, score: scoreCount});
       }      
-      scoreObj.push({name: props.roomData.JoinedUsers[key].name, score: scoreCount});
     });
 
     /* Sort object in order of score */

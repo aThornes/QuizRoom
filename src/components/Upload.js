@@ -70,59 +70,70 @@ function Upload(props) {
 
       let rounds = {};
       let idList = [];
-      let lastTitle = null;
+      let lastID = null;
       let questionCounter = 0;
 
       let curID = null;
 
       dataObjs.forEach(obj => {
-        if(obj && obj.length > 4){       
-          if(obj[0] !== lastTitle){
-            lastTitle = obj[0];
-            let newID = makeID(4);
-                        
-            while(idList.includes(newID)) newID = makeID(4);
-            
+        if(obj && obj.length > 4){
+          /* Check if new round */
+          if(obj[1] !== lastID){
+            lastID = obj[1];
+
+            let newID = obj[1];
+            while(idList.includes(newID)) newID = makeID(4); //Prevent duplicate ID by generating a new one
+
             idList.push(newID);
-            
+
             rounds[newID] = {};
-            if(obj[0].includes("Intro's")){
-              rounds[newID].type = "Music";
-            } else
-              rounds[newID].type = "Question";
-            rounds[newID].text = obj[0];
+
+            const rnd = rounds[newID];
+
+            rnd.type = obj[0];
+
+            rnd.text = obj[2];
+
             questionCounter = 0;
-            
+
             curID = newID;
           }
 
-          if(rounds[curID].type !== "Music" && obj[4] && obj[4].length > 0){
-            //console.log(obj);
-            const c1 = (obj[4] && obj[4].length > 0) ? obj[4] : null;
-            const c2 = (obj[5] &&obj[5].length > 0) ? obj[5] : null;
-            const c3 = (obj[6] &&obj[6].length > 0) ? obj[6] : null;
-            const c4 = (obj[7] &&obj[7].length > 0) ? obj[7] : null;
+          /* Add round data to object */
+          if(obj[5] && obj[5].length > 0){
+            const c1 = (obj[5] &&obj[5].length > 0) ? obj[5] : null;
+            const c2 = (obj[6] &&obj[6].length > 0) ? obj[6] : null;
+            const c3 = (obj[7] &&obj[7].length > 0) ? obj[7] : null;
+            const c4 = (obj[8] && obj[8].length > 0) ? obj[8] : null;
 
             let num = -1;
-            if(obj[3] === c1) num = 0;
-            else if(obj[3] === c2) num = 1;
-            else if(obj[3] === c3) num = 2;
-            else if(obj[3] === c4) num = 3;
+            if(obj[4] === c1) num = 0;
+            else if(obj[4] === c2) num = 1;
+            else if(obj[4] === c3) num = 2;
+            else if(obj[4] === c4) num = 3;
 
             let answer = num >= 0 ? num : obj[3];
 
             rounds[curID][questionCounter] = {Question: obj[2], Answer: answer, Choices: [c1, c2, c3, c4]};
-          } else 
-
-          if(rounds[curID].type === "Music"){
-            rounds[curID][questionCounter] = {Song: obj[2], Answer: obj[3], startTime: Number(obj[4]), endTime: Number(obj[5])};
           }
-          else
-            rounds[curID][questionCounter] = {Question: obj[2], Answer: obj[3]};
+          
+          switch(rounds[curID].type){
+            case "Music":
+              rounds[curID][questionCounter] = {Song: obj[3], Answer: obj[4], startTime: Number(obj[9]), endTime: Number(obj[10])};
+              break;
+            case "Picture":
+              rounds[curID][questionCounter] = {Question: obj[3], Image: obj[4]};
+              break;
+            case "Question":
+            default:
+              rounds[curID][questionCounter] = {Question: obj[3], Answer: obj[4]};
+              break;
+          }
 
           questionCounter++;
+         
         }
-      });
+      });     
 
       setQuestionIDs(idList);
 

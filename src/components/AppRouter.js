@@ -4,7 +4,7 @@ import {Router, Route, Switch, Redirect} from "react-router-dom";
 import { createBrowserHistory } from 'history';
 
 import Upload from "./Upload";
-//import Create from "./Create";
+import Create from "./Create";
 import Join from "./Join";
 import Room from "./Room";
 import NotFound from "./NotFound";
@@ -125,14 +125,14 @@ function AppRouter(props){
                 <Switch>
                     <Route exact path = "/">{redirectUser}</Route>
                     <Route path = "/create">
-                        {/* <Create 
+                        <Create 
                             auth={authenticated}
                             getQuestionData={getQuestionData}
                             questionData={questionData}
                             authUpdate={authStateChanged}
                             authLogin={userLogin}
-                            authLogout={logoutUser}/> */}
-                            <div>Not yet available</div>
+                            authLogout={logoutUser}/>
+                            {/* <div>Not yet available</div> */}
                     </Route>
                             
                     <Route path = "/join" history={history}> <Join history={history}/></Route> 
