@@ -82,6 +82,8 @@ function Create(props) {
     return (<>{keys.map((k, idx) =>{
       if(k !== "text" && k !== "type")
         return <div key={idx}>{props.questionData[k]}</div>
+      else
+        return <></>
     })}</>);
   }
 
