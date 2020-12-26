@@ -46,7 +46,6 @@ function RoomHeader(props) {
   }
 
   const showQuestionNumHeader = () => {
-    console.log(props.roomData);
     const display = (props.roomData.Stage === 1 && props.roomData.QuestionNum >= 0 && props.roomData.QuestionNum !== 99);
 
     if(display){

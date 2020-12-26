@@ -20,6 +20,10 @@
     padding-bottom: 5vh;
 }
 
+#musicControls img{
+    cursor: pointer;
+}
+
 .musicIcon{
     width:50px;
     padding-left: 20px;

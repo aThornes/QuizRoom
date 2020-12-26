@@ -39,11 +39,11 @@ function Music(props) {
   }
 
   const handleError = (e) => {
-    console.log(e);
+    //console.log(e);
   }
 
   const handleProgress = (e) => {
-    console.log(e);
+    
     if(e.playedSeconds > Number(props.endTime)){
       musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
       setPlaying(false);
