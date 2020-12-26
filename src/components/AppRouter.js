@@ -85,6 +85,12 @@ function AppRouter(props){
         }
     }
 
+    /**
+     * Create or update data within a room
+     * @param {string} code Room code
+     * @param {string} path Path within room to required data
+     * @param {any} newData data to set
+     */
     const updateRoomData = (code, path, newData) => {
         let roomData = firebase.database().ref("/Rooms/" + code + "/" + path);
         
@@ -127,12 +133,16 @@ function AppRouter(props){
                     <Route path = "/create">
                         <Create 
                             auth={authenticated}
-                            getQuestionData={getQuestionData}
-                            questionData={questionData}
                             authUpdate={authStateChanged}
                             authLogin={userLogin}
-                            authLogout={logoutUser}/>
-                            {/* <div>Not yet available</div> */}
+                            authLogout={logoutUser}
+                            roomData={roomData}
+                            getRoomData={getRoomData} 
+                            getRoomList={getRoomList}
+                            roomList={roomList}
+                            updateRoomData={updateRoomData}
+                            getQuestionData={getQuestionData}
+                            questionData={questionData}/>
                     </Route>
                             
                     <Route path = "/join" history={history}> <Join history={history}/></Route> 

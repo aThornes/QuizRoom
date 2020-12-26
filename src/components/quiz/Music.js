@@ -29,7 +29,6 @@ function Music(props) {
   const handleReady = (e) => {
     musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     setReady(true);
-    setPlaying(true);
   }
 
   const handleError = (e) => {

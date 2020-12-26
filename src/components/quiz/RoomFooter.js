@@ -133,8 +133,6 @@ function RoomFooter(props) {
           <button className="modalPointerButton"  disabled={!nextQues || props.roomData.QuestionNum === 99} onClick={() => changeQuestion(questionNum + 1)}>&gt;</button>
         </div>
         
-       
-
         <div>{ questionNum < 99 ? <button onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers</button> :
         (questionNum >= 100) ? 
         <button onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary</button> :
@@ -161,6 +159,15 @@ function RoomFooter(props) {
     );
   }
 
+  const startQuestionRound = (isAuto) => {
+    if(isAuto){
+      setAutoProgress(true);
+    }
+    
+    changeQuestion(0);
+    
+  }
+
   const getProgressButton = () => {
     const roundNum = props.roomData.RoundNum;
     const questionNum = props.roomData.QuestionNum;
@@ -169,14 +176,18 @@ function RoomFooter(props) {
     const upperQuestionBound = (props.roomData.Questions[roundNum].limit === -1) ? Object.keys(questionSet).length - 3 : props.roomData.Questions[roundNum].limit;
 
     if(props.roomData.Stage === 0){
-      return(<button className="modalButton" onClick={() => props.updateRoomData("Stage", 1)}>Start!</button>)
+      return(<button className="modalButton" onClick={() => props.updateRoomData("Stage", 1)}>Start!</button>)      
     } else if(questionNum === upperQuestionBound){
       return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers!</button>)
     } else if(questionNum === (upperQuestionBound + 100)){
       return(<div className="modalProgressOption"><button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary!</button></div>)
-    }
-    else if(questionNum === 99 && roundNum < Object.keys(props.roomData.Questions).length){
+    } else if(questionNum === 99 && roundNum < Object.keys(props.roomData.Questions).length){
       return(<div className="progressAbs"><button className="modalButton" onClick={() => changeRound(roundNum+1, true)}>Next Round</button></div>)
+    } else if(props.roomData.QuestionNum === -1){
+      return(<div className="modalProgressOption">
+        <button className="modalButton" onClick={() => startQuestionRound()}>Begin (Manual)</button>
+        <button className="modalButton" onClick={() => startQuestionRound(true)}>Begin (Auto)</button>
+      </div>);
     }
     return(<></>);
   }

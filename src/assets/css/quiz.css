@@ -73,6 +73,14 @@
     color:rgb(136, 30, 150);
 }
 
+.adminOptions{
+    padding-top:30px;
+}
+
+#createChoices{
+    padding-top: 30px;
+}
+
 @media (max-width: 568px) {
     #roundHeader {
         font-size: 50px;

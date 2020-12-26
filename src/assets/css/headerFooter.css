@@ -379,3 +379,9 @@
     }
     
 }
+
+@media (min-width: 1300px){
+    .progressIcon{
+        width:4vh;
+    }
+}
