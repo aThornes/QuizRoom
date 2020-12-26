@@ -30,6 +30,11 @@
     padding-right: 20px;
 }
 
+.iconDisabled{
+    filter: opacity(70%);
+    cursor: auto !important;
+}
+
 .musicPlayer {
     position: absolute;
     margin-left: auto;

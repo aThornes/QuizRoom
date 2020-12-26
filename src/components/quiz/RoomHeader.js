@@ -40,8 +40,8 @@ function RoomHeader(props) {
 
   const getCompleteIcons = () => {    
     const useSmall = playerObjs.length > 6;
-    return <div id="userCompletedListContainer" className={useSmall ? "listCompleteSmall" : ""}>{playerObjs.map((v, idx) => {
-      return <div><img className={`progressIcon ${v.answer === true ? "progressReady" : "progressWaiting"}`} key={idx} src={v.image || userCompletedImage} alt="userReady" /><div>{v.name.length < 8 ? v.name : `${v.name.substring(0,6)}..`}</div></div>     
+    return <div className={`userCompletedListContainer ${useSmall ? "listCompleteSmall" : ""}`}>{playerObjs.map((v, idx) => {
+      return <div key={idx}><img className={`progressIcon ${v.answer === true ? "progressReady" : "progressWaiting"}`} src={v.image || userCompletedImage} alt="userReady" /><div>{v.name.length < 8 ? v.name : `${v.name.substring(0,6)}..`}</div></div>     
     })}</div>
   }
 

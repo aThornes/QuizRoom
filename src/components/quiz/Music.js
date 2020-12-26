@@ -1,7 +1,5 @@
-import React, {useState, useRef, useEffect} from 'react';
-
+import React, {useState, useRef} from 'react';
 import ReactPlayer from 'react-player/lazy'
-
 
 import "../../assets/css/music.css"
 import playImage from "../../assets/play.png";
@@ -15,17 +13,12 @@ function Music(props) {
   const [ready, setReady] = useState(false);
   const [volume] = useState(0.3);
 
-  const [trigger, setTrigger] = useState(false);
-
   const musicPlayer = useRef(null);
 
-  useEffect(() => {    
-    setPlaying(true);    
-  }, [trigger]);
-
   const setPlay = (newState) => {
-    if(ready)
+    if(ready){
       setPlaying(newState);
+    }
   }
 
   const replayTrack = () => {
@@ -36,10 +29,11 @@ function Music(props) {
   const handleReady = (e) => {
     musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     setReady(true);
+    setPlaying(true);
   }
 
   const handleError = (e) => {
-    //console.log(e);
+    console.log(e);
   }
 
   const handleProgress = (e) => {
@@ -50,13 +44,6 @@ function Music(props) {
     } else if (e.playedSeconds < Number(props.startTime)){
       musicPlayer.current.seekTo(Number(props.startTime), 'seconds');
     }
-
-
-    /* Attempt at 'rebooting' the song on first load */
-    if(trigger){
-      setPlaying(false);
-      setTrigger(true);
-    }      
   }
 
 
@@ -81,8 +68,8 @@ function Music(props) {
       <div id="musicHeader">{props.headerText}</div>
       {getPlayer()}        
       <div id="musicControls">
-        {playing === true ? <img src={pauseImage} className="musicIcon" alt="musicPlay" onClick={() => setPlay(false)}/> : <img src={playImage} className="musicIcon" alt="musicPause" onClick={() => setPlay(true)}/>}
-        <img src={repeatImage} alt="musicReplay" className="musicIcon" onClick={() => replayTrack()} />
+        {playing === true ? <img src={pauseImage} className={`musicIcon ${!ready ? "iconDisabled" : ""}`} alt="musicPlay" onClick={() => setPlay(false)}/> : <img src={playImage} className={`musicIcon ${!ready ? "iconDisabled" : ""}`} alt="musicPause" onClick={() => setPlay(true)}/>}
+        <img src={repeatImage} alt="musicReplay" className={`musicIcon ${!ready ? "iconDisabled" : ""}`} onClick={() => replayTrack()} />
       </div>
     </div>
     

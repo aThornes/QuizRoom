@@ -70,7 +70,7 @@
     width:100vw;
 }
 
-#userCompletedListContainer{
+.userCompletedListContainer{
     display: flex;
     margin-left: auto;
     margin-right:auto;
@@ -78,7 +78,7 @@
     justify-content: center;
 }
 
-#userCompletedListContainer div{
+.userCompletedListContainer div{
     width:70px;
     font-size: 14px;
 }
@@ -360,7 +360,7 @@
         min-width:110px;
     }
 
-    #userCompletedListContainer div{
+    .userCompletedListContainer div{
         width:60px;
         font-size: 10px;
     }
