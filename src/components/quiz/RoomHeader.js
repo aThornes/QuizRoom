@@ -6,56 +6,67 @@ function RoomHeader(props) {
 
   let [clicked, setClicked] = useState(false);
 
-  let [totalPlayers, setTotalPlayers] = useState(0);
-  let [readyPlayers, setReadyPlayers] = useState(0);
+  let [playerObjs, setPlayerObjs] = useState([]);
 
   useEffect(() => {
-    setTotalPlayers(Object.keys(props.roomData.JoinedUsers).length);
-
-    let numPlayersCompleted = 0;
-
     let roundNum = props.roomData.RoundNum;
     let questionNum = props.roomData.QuestionNum;
 
-    Object.keys(props.roomData.JoinedUsers).forEach((p, idx) => {
+    let userObjects = [];
+
+    Object.keys(props.roomData.JoinedUsers).forEach((p) => {
       const user = props.roomData.JoinedUsers[p];
+      userObjects.push({name: user.name, image: null, answer: false}); //possibility of custom images here but cba for now
+
       if(user.answers){
-        
-        Object.keys(user.answers).forEach(ansKey => {
-          const ans = user.answers[ansKey];
+        const answerKeys = Object.keys(user.answers);
+
+        for(let i = 0; i < answerKeys.length; i++){
+          const ans = user.answers[answerKeys[i]];
           if(ans.q === questionNum && ans.rnd === roundNum && (ans.val !== undefined && ans.val !== null)){
-            numPlayersCompleted++;
+            userObjects[userObjects.length - 1].answer = true;
+            break;
           }
-        });
+        }       
       }
     });
-    
-    setReadyPlayers(numPlayersCompleted);
+
+    setPlayerObjs(userObjects);
+
+    //setPlayerObjs([{name:"12345678", answer:true},{name:"12345678", answer:false},{name:"12345678", answer:false},{name:"12345678", answer:true},{name:"12345678", answer:true},{name:"12345678", answer:false},{name:"12345678", answer:false}]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum]);
 
-  const getCompleteIcons = () => {
-    let progressList = [];
+  const getCompleteIcons = () => {    
+    const useSmall = playerObjs.length > 6;
+    return <div id="userCompletedListContainer" className={useSmall ? "listCompleteSmall" : ""}>{playerObjs.map((v, idx) => {
+      return <div><img className={`progressIcon ${v.answer === true ? "progressReady" : "progressWaiting"}`} key={idx} src={v.image || userCompletedImage} alt="userReady" /><div>{v.name.length < 8 ? v.name : `${v.name.substring(0,6)}..`}</div></div>     
+    })}</div>
+  }
 
-    for(let i = 0; i < totalPlayers; i++){
-      if(readyPlayers >= (i+1)) progressList.push(1);
-      else progressList.push(0);
+  const showQuestionNumHeader = () => {
+    console.log(props.roomData);
+    const display = (props.roomData.Stage === 1 && props.roomData.QuestionNum >= 0 && props.roomData.QuestionNum !== 99);
+
+    if(display){
+      return (
+        <div id="roomHeaderQuestionNum">
+          <div>Q{props.roomData.questionNum >= 100 ? `${(props.roomData.QuestionNum - 100) + 1}` : `${props.roomData.QuestionNum + 1}`}</div>
+        </div>
+        );
     }
-    
-    return progressList.map((v, idx) => {
-      if(v === 1)
-        return <img className={`progressIcon progressReady`} key={idx} src={userCompletedImage} alt="userReady" />
-      else
-        return <img className={`progressIcon progressWaiting`}  key={idx} src={userCompletedImage} alt="userReady" />
-    });
+    else return <> </>
   }
  
   return (
+    <>
+    {showQuestionNumHeader()}
     <div id="roomHeaderContainer">
       <div id="roomHeaderProgress">
         {props.showProgress ? getCompleteIcons() : <></>}
       </div>
+      {props.showCode ? 
       <div id="roomHeader">
         <div id="headerContainer">
         <div onClick={() => setClicked(clicked === true ? false : true)}>
@@ -65,7 +76,9 @@ function RoomHeader(props) {
         {clicked ? <div id="leaveButton" onClick={() => props.leaveRoom()}>Leave Room</div> : <> </>}
         </div>
       </div>
+      :<></>}
     </div>
+    </>
   );
 }
 

@@ -104,7 +104,8 @@ function Upload(props) {
               rounds[curID][questionCounter] = {Song: obj[3], Answer: obj[4], startTime: Number(obj[9]), endTime: Number(obj[10])};
               break;
             case "Picture":
-              rounds[curID][questionCounter] = {Question: obj[3], Image: obj[4]};
+              console.log(obj);
+              rounds[curID][questionCounter] = {Image: obj[3], Answer: obj[4]};
               break;
             case "Question":
             default:

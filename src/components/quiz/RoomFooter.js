@@ -14,10 +14,13 @@ function RoomFooter(props) {
   let [totalPlayers, setTotalPlayers] = useState(0);
   let [readyPlayers, setReadyPlayers] = useState(0);
 
+  let [autoProgress, setAutoProgress] = useState(false);
+
   useEffect(() => {
     setTotalPlayers(Object.keys(props.roomData.JoinedUsers).length);
 
     let numPlayersCompleted = 0;
+    let answeredPlayers = 0;
 
     let roundNum = props.roomData.RoundNum;
     let questionNum = props.roomData.QuestionNum;
@@ -32,14 +35,36 @@ function RoomFooter(props) {
           if(ans.q === questionNum && ans.rnd === roundNum && (ans.correct === true || ans.correct === false) ){
             numPlayersCompleted++;
           }
+          if(ans.q === questionNum && ans.rnd === roundNum && (ans.val !== undefined && ans.val !== null)){
+            answeredPlayers++;
+          }
         });
       }
     });
     
     setReadyPlayers(numPlayersCompleted);
 
+    if(!props.auth) return;
+
+    questionNum = props.roomData.QuestionNum;
+
+    /* If required, auto-progress round when all users have answered */
+    if(autoProgress && props.roomData.Stage === 1 && props.roomData.QuestionNum !== 99){
+      const questionSet = props.questionData[props.roomData.Questions[roundNum].id];  
+      const upperQuestionBound = (props.roomData.Questions[roundNum].limit === -1) ? Object.keys(questionSet).length - 3 : props.roomData.Questions[roundNum].limit;
+
+      let nextQues = false;
+
+      if((questionNum < upperQuestionBound && questionNum < 99) || (questionNum >= 100 && questionNum < (100 + upperQuestionBound)))  nextQues = true;
+
+      if(nextQues && ((questionNum < 99 && answeredPlayers === Object.keys(props.roomData.JoinedUsers).length) || (questionNum >= 100 && numPlayersCompleted === Object.keys(props.roomData.JoinedUsers).length))){
+        props.updateRoomData("QuestionNum", questionNum + 1);
+      }
+
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum])
+  }, [props.roomData.JoinedUsers, props.roomData.RoundNum, props.roomData.QuestionNum, autoProgress])
 
   const getStageOption = () => {
     if(props.roomData.Stage === 0){
@@ -50,6 +75,9 @@ function RoomFooter(props) {
           <button onClick={() => props.updateRoomData("Stage", 0)}>Setup</button>
           <button onClick={() => props.updateRoomData("Stage", 2)}>Finale</button>
         </div>
+        <div className="modalProgressOption">
+          <button onClick={() => setAutoProgress(!autoProgress ? true : false)} >{!autoProgress ? "Auto-Progress" : "Manual-Progress"}</button>
+        </div>
       </>)
     } else {
       return (<>
@@ -58,14 +86,22 @@ function RoomFooter(props) {
           <button onClick={() => props.updateRoomData("Stage", 0)}>Setup</button>
           <button onClick={() => props.updateRoomData("Stage", 1)}>Questions</button>
         </div>
+        <div className="modalProgressOption">
+          <button onClick={() => setAutoProgress(!autoProgress ? true : false)} >{!autoProgress ? "Auto-Progress" : "Manual-Progress"}</button>
+        </div>
       </>)
     }
   }
 
-  const changeRound = (newVal) => {
+  const changeRound = (newVal, res) => {
     props.updateRoomData("RoundNum", newVal);
-    if(props.roomData.QuestionNum !== 99)
+    if(props.roomData.QuestionNum !== 99 || res)
       props.updateRoomData("QuestionNum", -1)
+  }
+
+  const changeQuestion = (newVal) => {
+    if(newVal < props.roomData.QuestionNum) setAutoProgress(false); //Stop auto-progression when going back to previous question
+    props.updateRoomData("QuestionNum", newVal)
   }
 
   const getQuestionOptions = () => {
@@ -81,9 +117,9 @@ function RoomFooter(props) {
       
       if(roundNum > 0) prevRound=true;
 
-      if((questionNum < upperQuestionBound && questionNum < 100) || (questionNum >= 100 && questionNum < (100 + upperQuestionBound)))  nextQues = true;
+      if((questionNum < upperQuestionBound && questionNum < 99) || (questionNum >= 100 && questionNum < (100 + upperQuestionBound)))  nextQues = true;
 
-      if((questionNum >= 0 && questionNum < 100) || questionNum > 100) prevQues = true;
+      if((questionNum >= 0 && questionNum < 99) || questionNum > 100) prevQues = true;
 
       return(<div id="modalRoundAdmin">
         <div className="modalRoundSegment">
@@ -92,9 +128,9 @@ function RoomFooter(props) {
           <div><button className="modalPointerButton"  disabled={!nextRound} onClick={() => changeRound(roundNum+1)}>&gt;</button></div>
         </div>
         <div className="modalRoundSegment">
-          <button className="modalPointerButton"  disabled={!prevQues || props.roomData.QuestionNum === 99} onClick={() => props.updateRoomData("QuestionNum", questionNum - 1)}>&lt;</button>
+          <button className="modalPointerButton"  disabled={!prevQues || props.roomData.QuestionNum === 99} onClick={() => changeQuestion(questionNum - 1)}>&lt;</button>
           <div>Question</div>
-          <button className="modalPointerButton"  disabled={!nextQues || props.roomData.QuestionNum === 99} onClick={() => props.updateRoomData("QuestionNum", questionNum + 1)}>&gt;</button>
+          <button className="modalPointerButton"  disabled={!nextQues || props.roomData.QuestionNum === 99} onClick={() => changeQuestion(questionNum + 1)}>&gt;</button>
         </div>
         
        
@@ -123,6 +159,26 @@ function RoomFooter(props) {
         </div>
       </div>
     );
+  }
+
+  const getProgressButton = () => {
+    const roundNum = props.roomData.RoundNum;
+    const questionNum = props.roomData.QuestionNum;
+    const questionSet = props.questionData[props.roomData.Questions[roundNum].id];
+
+    const upperQuestionBound = (props.roomData.Questions[roundNum].limit === -1) ? Object.keys(questionSet).length - 3 : props.roomData.Questions[roundNum].limit;
+
+    if(props.roomData.QuestionNum === -1){
+      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 0)}>Start!</button>)
+    } else if(questionNum === upperQuestionBound){
+      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers!</button>)
+    } else if(questionNum === (upperQuestionBound + 100)){
+      return(<div className="modalProgressOption"><button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary!</button></div>)
+    }
+    else if(questionNum === 99 && roundNum < Object.keys(props.roomData.Questions).length){
+      return(<div className="progressAbs"><button className="modalButton" onClick={() => changeRound(roundNum+1, true)}>Next Round</button></div>)
+    }
+    return(<></>);
   }
 
   const logUser = async(e) => {
@@ -168,9 +224,15 @@ function RoomFooter(props) {
             <div id="modalContent">{props.auth ? getOptions() : getLogin()}</div>              
           </div>
           </> : 
+          <>
+          {props.auth ? <div>
+            {getProgressButton()}
+          </div> : <> 
+          </>}
           <div>
               <img id="adminOptionImage" src={configImage} alt="configuration" onClick={() => setClicked(clicked === true ? false : true)} />
-          </div>}
+          </div>
+          </>}
         </div>
       );
   } else {

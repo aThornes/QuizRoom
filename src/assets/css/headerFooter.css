@@ -2,7 +2,7 @@
     display:flex;
     margin-right:auto;
     margin-left:auto;
-    padding-bottom: 8vh;
+    padding-bottom: 10vh;
 }
 
 #roomHeader{
@@ -12,6 +12,17 @@
     width: 20vw;
     border-radius: 5px;
     z-index: 2;
+}
+
+#roomHeaderQuestionNum{
+    position: absolute;    
+    bottom:2vh;
+    right:2vw;
+}
+
+#roomHeaderQuestionNum div{
+    font-size:24px;
+    color:rgb(115, 160, 98) !important;
 }
 
 #roomHeader div{
@@ -52,12 +63,26 @@
 }
 
 #roomHeaderProgress{
-    display:flex;
-    margin-right:auto;
-    margin-left:auto;
-    align-items: center;
+    position: absolute;;
+    left:0px;
+    top:3vh;
     height:3vh;
+    width:100vw;
 }
+
+#userCompletedListContainer{
+    display: flex;
+    margin-left: auto;
+    margin-right:auto;
+    align-items: center;
+    justify-content: center;
+}
+
+#userCompletedListContainer div{
+    width:70px;
+    font-size: 14px;
+}
+
 
 .progressIcon{
     width:3vh;
@@ -66,6 +91,7 @@
 .progressWaiting{
     filter: brightness(20%);
 }
+
 
 .lds-hourglass {
     display: inline-block;
@@ -263,6 +289,20 @@
     padding-top:10px;
 }
 
+.modalProgressOption{
+    padding-top: 20px;
+    z-index: 2;
+}
+
+.progressAbs{
+    position: absolute;
+    bottom: 20px;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
 #modalOptionChoice button{
     min-width:150px;
     width:10vw;
@@ -318,6 +358,16 @@
 
     #modalOptionChoice button{
         min-width:110px;
+    }
+
+    #userCompletedListContainer div{
+        width:60px;
+        font-size: 10px;
+    }
+
+    .listCompleteSmall div{
+        width:40px !important;
+        font-size: 6px !important;
     }
     
 }

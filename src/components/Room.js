@@ -79,12 +79,14 @@ function Room(props) {
   }
 
   const getHeader = () => {
-    return <RoomHeader
-            roomCode={roomCode} 
-            loggedName={name}
-            roomData={props.roomData}
-            showProgress={props.roomData.Stage === 1 && props.roomData.QuestionNum < 99}
-            leaveRoom ={leaveRoom}/>;
+    const showCode = props.roomData.Stage !== 1;
+      return <RoomHeader
+              roomCode={roomCode} 
+              loggedName={name}
+              roomData={props.roomData}
+              showProgress={props.roomData.Stage === 1 && props.roomData.QuestionNum < 99}
+              leaveRoom ={leaveRoom}
+              showCode={showCode}/>;    
   }
 
   const getFooter = () => {
