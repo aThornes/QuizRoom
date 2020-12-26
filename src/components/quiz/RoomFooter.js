@@ -168,8 +168,8 @@ function RoomFooter(props) {
 
     const upperQuestionBound = (props.roomData.Questions[roundNum].limit === -1) ? Object.keys(questionSet).length - 3 : props.roomData.Questions[roundNum].limit;
 
-    if(props.roomData.QuestionNum === -1){
-      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 0)}>Start!</button>)
+    if(props.roomData.Stage === 0){
+      return(<button className="modalButton" onClick={() => props.updateRoomData("Stage", 1)}>Start!</button>)
     } else if(questionNum === upperQuestionBound){
       return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers!</button>)
     } else if(questionNum === (upperQuestionBound + 100)){
