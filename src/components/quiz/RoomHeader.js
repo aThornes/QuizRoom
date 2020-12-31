@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import userCompletedImage from '../../assets/mom.png'
+import userCompletedImage from '../../assets/userCompleted.png'
 
 function RoomHeader(props) {  
 
