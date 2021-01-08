@@ -1,5 +1,6 @@
 import React, {useState, useRef} from 'react';
-import ReactPlayer from 'react-player/lazy'
+import ReactPlayer from 'react-player/lazy';
+import SoundPlayer from 'react-player/soundcloud';
 
 import "../../assets/css/music.css"
 import playImage from "../../assets/play.png";
@@ -48,18 +49,33 @@ function Music(props) {
 
   const getPlayer = () => {
 
-    const musicSource = props.src.includes("youtube") ? props.src : `https://soundcloud.com/${props.src}`;
+    const isYT = props.src.includes("youtube");
 
-    return(<ReactPlayer 
-      ref={musicPlayer}
-      id="quizz-music-player"
-      url={musicSource}
-      playing={playing}
-      volume={volume}
-      onReady={(e) => handleReady(e)}
-      onProgress={(e) => handleProgress(e)}
-      onError={(e) => handleError(e)}
-    />);    
+    const musicSource = isYT ? props.src : `https://soundcloud.com/${props.src}`;
+
+    if(isYT){
+      return(<ReactPlayer 
+        ref={musicPlayer}
+        className="quizz-music-player"
+        url={musicSource}
+        playing={playing}
+        volume={volume}
+        onReady={(e) => handleReady(e)}
+        onProgress={(e) => handleProgress(e)}
+        onError={(e) => handleError(e)}
+      />);    
+    } else {
+      return(<SoundPlayer 
+        ref={musicPlayer}
+        className="quizz-music-player"
+        url={musicSource}
+        playing={playing}
+        volume={volume}
+        onReady={(e) => handleReady(e)}
+        onProgress={(e) => handleProgress(e)}
+        onError={(e) => handleError(e)}
+      />);    
+    }    
   }
 
   return (
