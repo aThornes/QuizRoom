@@ -37,7 +37,7 @@ function Join(props) {
         {/* <span id="textSmall">s</span> */}
       </div>
       <div className="joinText" id="joinText2">Big</div>
-      <div className="joinText" id="joinText3">New Year Quiz</div>
+      <div className="joinText" id="joinText3">January Quiz</div>
       <div className="joinText" id="joinTextRoom">Room Code</div>
 
           {/* <img id="joinText1" src={text1} alt="Nan G's"/>

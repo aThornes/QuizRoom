@@ -104,7 +104,6 @@ function Upload(props) {
               rounds[curID][questionCounter] = {Song: obj[3], Answer: obj[4], startTime: Number(obj[9]), endTime: Number(obj[10])};
               break;
             case "Picture":
-              console.log(obj);
               rounds[curID][questionCounter] = {Image: obj[3], Answer: obj[4]};
               break;
             case "Question":
@@ -135,11 +134,8 @@ function Upload(props) {
           questionCounter++;
          
         }
-      });   
-      
+      });         
       setQuestionIDs(idList);
-
-      console.log(rounds);
 
       props.overwriteQuestionList(rounds);
 
