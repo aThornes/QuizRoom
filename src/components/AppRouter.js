@@ -78,8 +78,6 @@ function AppRouter(props){
     const overwriteQuestionList = async(newQuestions) => {
         let questionData = firebase.database().ref("/QuestionList/");
 
-
-
         try{
             return await questionData.set(newQuestions);
         } catch(e) {

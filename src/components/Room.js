@@ -84,7 +84,7 @@ function Room(props) {
               roomCode={roomCode} 
               loggedName={name}
               roomData={props.roomData}
-              showProgress={props.roomData.Stage === 1 && props.roomData.QuestionNum < 99}
+              showProgress={props.roomData.Stage === 1}
               leaveRoom ={leaveRoom}
               showCode={showCode}/>;    
   }

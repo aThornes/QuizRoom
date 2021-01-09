@@ -6,6 +6,8 @@ function UserAnswer(props) {
   const [answer, setAnswer] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+  const [editing, setEditing] = useState(false);
+
   useEffect(()=>{
     if(props.checkAnswer){
       let curAns = props.getCurrentAnswer();
@@ -16,10 +18,11 @@ function UserAnswer(props) {
       }
     } else {
       let ans = props.getCurrentAnswer();
-      if(ans !== null && ans !== "") 
+      if(ans !== null && ans !== "" && !editing)
         setSubmitted(true);
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [props]);
 
   const submitChoiceAnswer = (idx) => {    
@@ -37,14 +40,6 @@ function UserAnswer(props) {
     setSubmitted(true);
   }
 
-  const getSubmitButton = () => {
-    if(!submitted){
-      return <button onClick={() => {submitAnswer()}}>I'm done!</button>;
-    } else {
-      return <button onClick={() => {setSubmitted(false)}}>Change Answer</button>;
-    }
-  }
-
   const getChoiceOptions = () => {
     return (<>
       {props.choices.map((choice, idx) => {
@@ -58,6 +53,17 @@ function UserAnswer(props) {
     else return <> </>;
   }
 
+  const submitInputAnswer = (e) => {
+    e.preventDefault();
+    if(!submitted){
+      submitAnswer();
+      setEditing(false);
+    } else {
+      setSubmitted(false);
+      setEditing(true);
+    }
+  }
+
   if(props.choices){
     return (
     <div id="userInput">
@@ -66,12 +72,12 @@ function UserAnswer(props) {
   } else {
     return (
     <div id="userInput">
-      <div id="inputField">
-        {getInputField()}
-      </div>
-      <div id="submitButton">
-        {getSubmitButton()}
-      </div>
+      <form onSubmit={(e) => submitInputAnswer(e)}>
+        <div id="inputField">
+          {getInputField()}
+        </div>        
+        <button id="submitButton">{submitted ? "Change Answer" : "I'm Done!"}</button>
+      </form>
     </div>
     );
   }

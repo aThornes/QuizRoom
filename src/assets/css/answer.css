@@ -220,3 +220,18 @@
         padding: 15px 0px;
     }
 }
+
+@media (max-height: 568px) {
+
+    #answerSummary h2{
+        height:2vh;
+    }
+
+    #answerSummaryContainer{
+        padding-bottom: 0vh;
+    }
+
+    #answerSummaryQuestion{
+        padding-top:0px !important;
+    }
+}

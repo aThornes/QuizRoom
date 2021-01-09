@@ -178,11 +178,11 @@ function RoomFooter(props) {
     if(props.roomData.Stage === 0){
       return(<button className="modalButton" onClick={() => props.updateRoomData("Stage", 1)}>Start!</button>)      
     } else if(questionNum === upperQuestionBound){
-      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>Answers!</button>)
+      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>A</button>)
     } else if(questionNum === (upperQuestionBound + 100)){
-      return(<div className="modalProgressOption"><button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 99)}>Summary!</button></div>)
+      return(<div className="progressAbs"><button onClick={() => props.updateRoomData("QuestionNum", 99)}>S</button></div>)
     } else if(questionNum === 99 && roundNum < Object.keys(props.roomData.Questions).length){
-      return(<div className="progressAbs"><button className="modalButton" onClick={() => changeRound(roundNum+1, true)}>Next Round</button></div>)
+      return(<div className="progressAbs"><button onClick={() => changeRound(roundNum+1, true)}>N</button></div>)
     } else if(props.roomData.QuestionNum === -1){
       return(<div className="modalProgressOption">
         <button className="modalButton" onClick={() => startQuestionRound()}>Begin (Manual)</button>

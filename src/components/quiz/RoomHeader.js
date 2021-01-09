@@ -21,10 +21,15 @@ function RoomHeader(props) {
       if(user.answers){
         const answerKeys = Object.keys(user.answers);
 
+        const qNum = questionNum >= 100 ? questionNum - 100 : questionNum;
+
         for(let i = 0; i < answerKeys.length; i++){
           const ans = user.answers[answerKeys[i]];
-          if(ans.q === questionNum && ans.rnd === roundNum && (ans.val !== undefined && ans.val !== null)){
-            userObjects[userObjects.length - 1].answer = true;
+          if(ans.q === qNum && ans.rnd === roundNum){
+            if(questionNum < 100 && (ans.val !== undefined && ans.val !== null))            
+                userObjects[userObjects.length - 1].answer = true;
+            else if(questionNum >= 100 && (ans.correct !== undefined && ans.correct !== null))
+                userObjects[userObjects.length - 1].answer = true;
             break;
           }
         }       
@@ -51,7 +56,7 @@ function RoomHeader(props) {
     if(display){
       return (
         <div id="roomHeaderQuestionNum">
-          <div>Q{props.roomData.questionNum >= 100 ? `${(props.roomData.QuestionNum - 100) + 1}` : `${props.roomData.QuestionNum + 1}`}</div>
+          <div>Q{props.roomData.QuestionNum >= 100 ? `${(props.roomData.QuestionNum - 100) + 1}` : `${props.roomData.QuestionNum + 1}`}</div>
         </div>
         );
     }

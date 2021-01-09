@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useRef} from 'react';
 
-import ReactPlayer from 'react-player/soundcloud';
+import ReactPlayer from 'react-player/lazy';
+import SoundPlayer from 'react-player/soundcloud';
 
 import playImage from "../../assets/play.png";
 import pauseImage from "../../assets/pause.png";
@@ -68,6 +69,29 @@ function Answers(props) {
 
     }
 
+    const getPlayer = () => {
+
+        const isYT = props.questionData.Song.includes("youtube");
+    
+        const musicSource = isYT ? props.questionData.Song: `https://soundcloud.com/${props.questionData.Song}`;
+    
+        if(isYT){
+          return(<ReactPlayer ref={musicPlayer} className="quizz-music-player"
+            url={musicSource}
+            playing={playing}
+            volume={playerVolume}
+            onProgress={(e) => musicProgress(e)}/>
+          );    
+        } else {
+            return(<SoundPlayer ref={musicPlayer} className="quizz-music-player"
+            url={musicSource}
+            playing={playing}
+            volume={playerVolume}
+            onProgress={(e) => musicProgress(e)}/>
+          );    
+        }    
+      }
+
     const getQuestion = () => {
         const _style = {
             ...(props.color && {
@@ -89,11 +113,7 @@ function Answers(props) {
                             <div ref={musicProgressRef} className="musicPlayerFill" style={_style}></div>
                         </div>    
                     </div> : <></>}
-                    <ReactPlayer ref={musicPlayer} id="quizz-music-player"
-                        url={`https://soundcloud.com/${props.questionData.Song}` }
-                        playing={playing}
-                        volume={playerVolume}
-                        onProgress={(e) => musicProgress(e)}/>
+                    {getPlayer()}
                 </div>);
             case "picture":
                 return <div id="pictureQuestion"><img src={props.questionData.Image} alt="Question"/></div>
@@ -148,6 +168,9 @@ function Answers(props) {
             setDisabledCor(false);
             setDisabledInc(false);
         }
+
+        setPlayAll(false);
+        setPlaying(false);
 
     }, [props]);
    

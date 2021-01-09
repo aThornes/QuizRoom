@@ -99,6 +99,13 @@ function Upload(props) {
             curID = newID;
           }
 
+          /* Switch out '|' symbol for ',' since data is stored in .csv, this allows use of commas in questions */
+          for(let i = 3; i < 10; i++){
+            if(obj[i]){
+              obj[i] = obj[i].replace(/|/g, ",");
+            }
+          }
+
           switch(rounds[curID].type){
             case "Music":
               rounds[curID][questionCounter] = {Song: obj[3], Answer: obj[4], startTime: Number(obj[9]), endTime: Number(obj[10])};
