@@ -177,6 +177,10 @@
 
 
 @media (max-height: 668px) {
+
+    #userInput button:hover {
+        background-color: rgb(203, 200, 200);
+    }
         
     #answerSummary h2{
         color:rgb(55, 20, 124);

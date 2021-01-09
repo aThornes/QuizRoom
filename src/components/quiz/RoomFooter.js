@@ -178,7 +178,7 @@ function RoomFooter(props) {
     if(props.roomData.Stage === 0){
       return(<button className="modalButton" onClick={() => props.updateRoomData("Stage", 1)}>Start!</button>)      
     } else if(questionNum === upperQuestionBound){
-      return(<button className="modalButton" onClick={() => props.updateRoomData("QuestionNum", 100)}>A</button>)
+      return(<div className="progressAbs"><button onClick={() => props.updateRoomData("QuestionNum", 100)}>A</button></div>)
     } else if(questionNum === (upperQuestionBound + 100)){
       return(<div className="progressAbs"><button onClick={() => props.updateRoomData("QuestionNum", 99)}>S</button></div>)
     } else if(questionNum === 99 && roundNum < Object.keys(props.roomData.Questions).length){
