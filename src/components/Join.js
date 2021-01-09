@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import "../assets/css/animation.scss";
 import "../assets/css/join.css";
 
+import githubImage from "../assets/github.png"
+
 // import text1 from '../assets/textNanGs.png';
 // import text2 from '../assets/textBig.png';
 // import text3 from '../assets/textBirthdayQuiz.png';
@@ -68,6 +70,7 @@ function Join(props) {
           </form>
           
       </div>
+      <img id="githubLink" src={githubImage} alt="Github" onClick={() => window.open("https://github.com/aThornes/QuizRoom")}></img>
     </div>
   );
 }
