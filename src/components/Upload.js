@@ -102,7 +102,7 @@ function Upload(props) {
           /* Switch out '|' symbol for ',' since data is stored in .csv, this allows use of commas in questions */
           for(let i = 3; i < 10; i++){
             if(obj[i]){
-              obj[i] = obj[i].replace(/|/g, ",");
+              obj[i] = obj[i].replaceAll("|", ",");
             }
           }
 
